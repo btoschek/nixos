@@ -19,9 +19,9 @@
       nixosConfigurations = {
         khora = nixpkgs.lib.nixosSystem {
           specialArgs = { inherit inputs; };
-	  modules = [
+          modules = [
             ./hosts/khora/configuration.nix
-	  ];
+          ];
         };
       };
     };

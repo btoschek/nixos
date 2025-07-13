@@ -1,6 +1,11 @@
 { config, pkgs, ... }:
 
 {
+
+  imports = [
+    ../../modules/home-manager/desktop/hyprland.nix
+  ];
+
   # Home Manager needs a bit of information about you and the paths it should
   # manage.
   home.username = "btoschek";
@@ -24,14 +29,6 @@
     # # fonts?
     pkgs.nerd-fonts.hack
   ];
-
-  home.pointerCursor = {
-    enable = true;
-    package = pkgs.bibata-cursors;
-    name = "Bibata-Modern-Ice";
-    hyprcursor.enable = true;
-    size = 24;
-  };
 
   programs.zsh = {
     enable = true;

@@ -180,6 +180,7 @@
     sops
     makemkv
 
+    playerctl
     gcc
   ];
 
