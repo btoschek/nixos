@@ -1,4 +1,4 @@
-{ config, pkgs, ... }:
+{ config, ... }:
 
 # Taken from: https://www.reddit.com/r/NixOS/comments/1hdsfz0
 {
