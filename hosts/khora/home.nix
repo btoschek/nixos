@@ -4,6 +4,7 @@
 
   imports = [
     ../../modules/home-manager/desktop/hyprland.nix
+    ../../modules/home-manager/terminal/zoxide.nix
   ];
 
   # Home Manager needs a bit of information about you and the paths it should
@@ -39,7 +40,8 @@
       ls = "eza --icons -l";
       v = "nvim";
       vim = "nvim";
-    };
+    }
+    // (if config.programs.zoxide.enable then { cd = "z"; } else {});
     initContent = ''
       # Enable branches to be displayed in the prompt
       autoload -Uz vcs_info

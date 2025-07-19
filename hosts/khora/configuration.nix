@@ -164,7 +164,6 @@
 
     mpv
     obsidian
-    fzf
     eww
     python3
 
