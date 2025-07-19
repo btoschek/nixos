@@ -176,9 +176,9 @@
         "$mod, mouse_up  , workspace, e-1"
 
         # Audio controls
-        " , XF86AudioPlay , exec, playerctl play-pause"
-        " , XF86AudioNext , exec, playerctl next"
-        " , XF86AudioPrev , exec, playerctl previous"
+        " , XF86AudioPlay , exec, playerctl -p spotify play-pause"
+        " , XF86AudioNext , exec, playerctl -p spotify next"
+        " , XF86AudioPrev , exec, playerctl -p spotify previous"
 
         # Testing: Get information about currently selected window
         "$mod, I, exec, notify-send \"Active window:\" \"`hyprctl activewindow`\""
@@ -204,8 +204,8 @@
 
       # Repeating when held
       binde = [
-        " , XF86AudioRaiseVolume, exec, playerctl volume 0.05+"
-        " , XF86AudioLowerVolume, exec, playerctl volume 0.05-"
+        " , XF86AudioRaiseVolume, exec, playerctl -p spotify volume 0.05+"
+        " , XF86AudioLowerVolume, exec, playerctl -p spotify volume 0.05-"
       ];
     };
   };
