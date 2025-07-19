@@ -156,7 +156,6 @@
     wally-cli
 
     (discord.override { withOpenASAR = true; withVencord = true; })
-    spotify
     bottom
 
     libnotify

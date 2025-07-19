@@ -1,9 +1,11 @@
-{ config, pkgs, ... }:
+{ config, inputs, pkgs, ... }:
 
 {
 
   imports = [
+    inputs.spicetify-nix.homeManagerModules.spicetify
     ../../modules/home-manager/desktop/hyprland.nix
+    ../../modules/home-manager/desktop/spotify.nix
     ../../modules/home-manager/terminal/zoxide.nix
   ];
 
