@@ -7,6 +7,7 @@
     ../../modules/home-manager/desktop/hyprland.nix
     ../../modules/home-manager/desktop/spotify.nix
     ../../modules/home-manager/terminal/zoxide.nix
+    ../../modules/home-manager/terminal/git.nix
   ];
 
   # Home Manager needs a bit of information about you and the paths it should
@@ -87,20 +88,6 @@
   };
 
   programs.yt-dlp.enable = true;
-
-  programs.git = {
-    enable = true;
-    userName = "btoschek";
-    userEmail = "btoschek@protonmail.com";
-    signing = {
-      format = "openpgp";
-      key = "1AFEC0D7C7F14AB9";
-      signByDefault = true;
-    };
-    extraConfig = {
-      init.defaultBranch = "main";
-    };
-  };
 
   programs.gpg.enable = true;
 
