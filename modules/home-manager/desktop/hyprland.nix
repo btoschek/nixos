@@ -171,6 +171,12 @@
         "$mod, k, movefocus, u"
         "$mod, j, movefocus, d"
 
+        # Move current workspace to different monitor
+        "$mod SHIFT, LEFT, movecurrentworkspacetomonitor, l"
+        "$mod SHIFT, RIGHT, movecurrentworkspacetomonitor, r"
+        "$mod SHIFT, UP, movecurrentworkspacetomonitor, l"
+        "$mod SHIFT, DOWN, movecurrentworkspacetomonitor, r"
+
         # Scroll through existing workspaces with $mod + scroll
         "$mod, mouse_down, workspace, e+1"
         "$mod, mouse_up  , workspace, e-1"
