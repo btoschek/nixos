@@ -161,7 +161,6 @@
     libnotify
     dunst
 
-    mpv
     obsidian
     eww
     python3
@@ -178,7 +177,6 @@
     sops
     makemkv
 
-    playerctl
     gcc
   ];
 

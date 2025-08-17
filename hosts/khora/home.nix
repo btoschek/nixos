@@ -8,6 +8,7 @@
     ../../modules/home-manager/desktop/spotify.nix
     ../../modules/home-manager/terminal/zoxide.nix
     ../../modules/home-manager/terminal/git.nix
+    ../../modules/home-manager/programs/media.nix
   ];
 
   # Home Manager needs a bit of information about you and the paths it should
