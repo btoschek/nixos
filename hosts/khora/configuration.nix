@@ -165,12 +165,6 @@
     eww
     python3
 
-    openjdk
-    prismlauncher
-
-    mangohud
-    gamescope
-    steam
     rofi-wayland
 
     thunderbird

@@ -9,6 +9,7 @@
     ../../modules/home-manager/terminal/zoxide.nix
     ../../modules/home-manager/terminal/git.nix
     ../../modules/home-manager/programs/media.nix
+    ../../modules/home-manager/desktop/games.nix
   ];
 
   # Home Manager needs a bit of information about you and the paths it should
