@@ -27,4 +27,6 @@
       };
     };
   };
+
+  programs.lazygit.enable = true;
 }

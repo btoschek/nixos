@@ -4,12 +4,12 @@
 
   imports = [
     inputs.spicetify-nix.homeManagerModules.spicetify
-    ../../modules/home-manager/desktop/hyprland.nix
-    ../../modules/home-manager/desktop/spotify.nix
-    ../../modules/home-manager/terminal/zoxide.nix
-    ../../modules/home-manager/terminal/git.nix
-    ../../modules/home-manager/programs/media.nix
-    ../../modules/home-manager/desktop/games.nix
+    ../../modules/home/desktop/hyprland.nix
+    ../../modules/home/desktop/spotify.nix
+    ../../modules/home/terminal/zoxide.nix
+    ../../modules/home/terminal/git.nix
+    ../../modules/home/programs/media.nix
+    ../../modules/home/desktop/games.nix
   ];
 
   # Home Manager needs a bit of information about you and the paths it should
@@ -68,16 +68,6 @@
 
   programs.gallery-dl.enable = true;
 
-  programs.mangohud = {
-    enable = true;
-    settings = {
-      toggle_hud = "F10";
-      gpu_temp = true;
-      cpu_temp = true;
-      no_display = true;
-    };
-  };
-
   programs.eww = {
     enable = true;
     enableZshIntegration = true;
@@ -91,8 +81,6 @@
     enable = true;
     pinentry.package = pkgs.pinentry-curses;
   };
-
-  programs.lazygit.enable = true;
 
   # Home Manager is pretty good at managing dotfiles. The primary way to manage
   # plain files is through 'home.file'.
