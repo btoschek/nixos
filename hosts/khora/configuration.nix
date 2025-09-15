@@ -12,6 +12,7 @@
       ./hardware-configuration.nix
       inputs.home-manager.nixosModules.default
       ./../../modules/nixos/bluetooth.nix
+      ./../../modules/nixos/sddm.nix
     ];
 
   # Use grub instead of systemd-boot
