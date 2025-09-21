@@ -144,6 +144,10 @@
         "workspace 3 silent, class:^(firefox)$"
         "workspace 3 silent, class:^(org.qutebrowser.qutebrowser)$"
         "workspace 3 silent, class:^(zen)$"
+
+        "float, initialtitle:^(Picture-in-Picture)$"
+        "size 30% 30%, initialtitle:^(Picture-in-Picture)$"
+        "move 100%-w-30 100%-w-30, initialtitle:^(Picture-in-Picture)$"
       ];
 
       "$mod" = "SUPER";
