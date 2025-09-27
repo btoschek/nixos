@@ -146,7 +146,7 @@
     eww
     python3
 
-    rofi-wayland
+    rofi
 
     thunderbird
     sops
