@@ -94,6 +94,33 @@
   services.pipewire = {
     enable = true;
     pulse.enable = true;
+    wireplumber = {
+      enable = true;
+      configPackages = [
+        (pkgs.writeTextDir "share/wireplumber/wireplumber.conf.d/10-defaults.conf" ''
+          monitor.alsa.rules = [
+            {
+              matches = [ { node.name = "alsa_output.usb-Logitech_G533_Gaming_Headset-00.analog-stereo" } ]
+              actions = {
+                update-props = {
+                  priority.driver = 1200
+                  priority.session = 1200
+                }
+              }
+            }
+            {
+              matches = [ { node.name = "alsa_input.usb-HP__Inc_HyperX_QuadCast_S-00.analog-stereo" } ]
+              actions = {
+                update-props = {
+                  priority.driver = 2200
+                  priority.session = 2200
+                }
+              }
+            }
+          ]
+        '')
+      ];
+    };
   };
 
   # Define a user account. Don't forget to set a password with ‘passwd’.
