@@ -10,6 +10,7 @@
     ../../modules/home/terminal/git.nix
     ../../modules/home/programs/media.nix
     ../../modules/home/desktop/games.nix
+    ../../modules/home/nixvim
   ];
 
   # Home Manager needs a bit of information about you and the paths it should
