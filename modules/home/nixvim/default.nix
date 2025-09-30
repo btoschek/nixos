@@ -20,6 +20,8 @@
 
     globals.mapleader = " ";
     opts = import ./options.nix;
+
+    keymaps = import ./keymaps.nix;
   };
 
 }
