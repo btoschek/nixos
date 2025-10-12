@@ -29,6 +29,11 @@
   home.packages = [
     pkgs.nerd-fonts.hack
     inputs.nixvim.packages.x86_64-linux.default
+
+    # Rust development
+    pkgs.rust-analyzer
+
+    pkgs.ruff
   ];
 
   programs.zsh = {
