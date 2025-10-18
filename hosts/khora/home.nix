@@ -4,11 +4,9 @@
 
   imports = [
     inputs.spicetify-nix.homeManagerModules.spicetify
-    ../../modules/home/terminal/zoxide.nix
-    ../../modules/home/terminal/git.nix
     ../../modules/home/programs/media.nix
     ../../modules/home/desktop
-    ../../modules/home/terminal/zsh.nix
+    ../../modules/home/terminal
   ];
 
   userSettings = {
