@@ -4,14 +4,16 @@
 
   imports = [
     inputs.spicetify-nix.homeManagerModules.spicetify
-    ../../modules/home/desktop/hyprland.nix
-    ../../modules/home/desktop/spotify.nix
     ../../modules/home/terminal/zoxide.nix
     ../../modules/home/terminal/git.nix
     ../../modules/home/programs/media.nix
-    ../../modules/home/desktop/games.nix
+    ../../modules/home/desktop
     ../../modules/home/terminal/zsh.nix
   ];
+
+  userSettings = {
+    hyprland.enable = true;
+  };
 
   # Home Manager needs a bit of information about you and the paths it should
   # manage.

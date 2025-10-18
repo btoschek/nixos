@@ -4,7 +4,6 @@ let
   spicePkgs = inputs.spicetify-nix.legacyPackages.${pkgs.system};
 in
 {
-
   programs.spicetify = {
     enable = true;
     theme = spicePkgs.themes.sleek;
