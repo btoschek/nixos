@@ -11,6 +11,20 @@ in
   };
 
   config = lib.mkIf cfg.enable {
+    home.packages = with pkgs; [
+      libnotify
+      dunst
+
+      grim
+      slurp
+
+      swww
+
+      # TODO: Check, why both
+      wl-clipboard
+      copyq
+    ];
+
     home.pointerCursor = {
       enable = true;
       package = pkgs.bibata-cursors;

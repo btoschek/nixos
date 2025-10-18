@@ -152,19 +152,11 @@
     wget
 
     yazi
-    swww
-    copyq
-    grim
-    slurp
-    wl-clipboard
 
     wally-cli
 
     (discord.override { withOpenASAR = true; withVencord = true; })
     bottom
-
-    libnotify
-    dunst
 
     obsidian
     eww
