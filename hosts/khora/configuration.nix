@@ -151,7 +151,6 @@
   environment.systemPackages = with pkgs; [
     wget
 
-    kitty
     yazi
     swww
     copyq

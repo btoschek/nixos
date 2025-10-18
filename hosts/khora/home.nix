@@ -11,6 +11,7 @@
 
   userSettings = {
     hyprland.enable = true;
+    kitty.enable = true;
   };
 
   # Home Manager needs a bit of information about you and the paths it should
