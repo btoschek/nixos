@@ -2,7 +2,7 @@
 
 {
   imports = [
-    ./traefik.nix
+    ./traefik
     ./immich.nix
   ];
 
