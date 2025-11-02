@@ -2,7 +2,6 @@
 
 let
   cfg = config.serviceSettings.immich;
-  port = 2283;
   traefik-utils = import ./traefik/utils.nix;
 in
 {
@@ -18,7 +17,7 @@ in
     };
   };
 
-  config = {
+  config = lib.mkIf cfg.enable {
     # Mount app-specific network shares
     fileSystems."/mnt/vault" = {
       device = "${config.serviceSettings.nasIp}:/mnt/storage0/vault";
@@ -27,7 +26,6 @@ in
 
     services.immich = {
       enable = true;
-      inherit port;
     };
 
     # Register service to reverse proxy
