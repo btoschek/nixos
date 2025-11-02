@@ -12,7 +12,7 @@ in
       url = lib.mkOption {
         type = lib.types.str;
         default = "immich.${config.serviceSettings.domain}";
-        description = "Route the service should be accessible at (requires traefik)";
+        description = "URL the service should be accessible at (requires traefik)";
       };
     };
   };

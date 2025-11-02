@@ -15,6 +15,7 @@
 
     traefik.enable = true;
     immich.enable = true;
+    homepage.enable = true;
   };
 
   nix.extraOptions = ''
