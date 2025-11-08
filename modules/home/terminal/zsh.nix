@@ -29,6 +29,6 @@
         [ -n "$cwd" ] && [ "$cwd" != "$PWD" ] && builtin cd -- "$cwd"
         rm -f -- "$tmp"
       }
-    '';
+    '' + (if config.programs.direnv.enable then "eval \"$(direnv hook zsh)\"" else "");
   };
 }
