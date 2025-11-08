@@ -3,17 +3,12 @@
 {
   programs.git = {
     enable = true;
-    userName = "btoschek";
-    userEmail = "btoschek@protonmail.com";
-    signing = {
-      format = "openpgp";
-      key = "1AFEC0D7C7F14AB9";
-      signByDefault = true;
-    };
-    delta = {
-      enable = true;
-    };
-    extraConfig = {
+    settings = {
+      user = {
+        name = "btoschek";
+        email = "btoschek@protonmail.com";
+      };
+
       init.defaultBranch = "main";
 
       # Clone GitHub projects with gh:btoschek/lorelei
@@ -26,7 +21,13 @@
         insteadOf = "bt:";
       };
     };
+    signing = {
+      format = "openpgp";
+      key = "1AFEC0D7C7F14AB9";
+      signByDefault = true;
+    };
   };
 
+  programs.delta.enable = true;
   programs.lazygit.enable = true;
 }
