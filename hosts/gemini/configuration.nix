@@ -3,6 +3,7 @@
 {
 
   imports = [
+    ./disko.nix
     inputs.disko.nixosModules.disko
     ../../services
   ];
@@ -15,6 +16,7 @@
 
     traefik.enable = true;
     immich.enable = true;
+    jellyfin.enable = true;
     homepage.enable = true;
   };
 

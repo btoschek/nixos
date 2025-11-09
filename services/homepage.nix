@@ -41,6 +41,7 @@ in
       settings = {
         title = "Homelab";
         headerStyle = "clean";
+        statusStyle = "basic";
         background = {
           image = "/images/background.jpg";
           opacity = 60;
@@ -88,6 +89,14 @@ in
                 icon = "immich.svg";
                 href = "https://${config.serviceSettings.immich.url}/";
                 ping = config.serviceSettings.immich.url;
+              };
+            }])
+            ++ (lib.lists.optionals config.serviceSettings.jellyfin.enable [{
+              Jellyfin = {
+                description = "Watch local movies and series";
+                icon = "jellyfin.svg";
+                href = "https://${config.serviceSettings.jellyfin.url}/";
+                ping = config.serviceSettings.jellyfin.url;
               };
             }]);
         }

@@ -46,7 +46,6 @@
         gemini = nixpkgs.lib.nixosSystem {
           specialArgs = { inherit inputs; };
           modules = [
-            ./hosts/gemini/disko.nix
             ./hosts/gemini/configuration.nix
           ];
         };

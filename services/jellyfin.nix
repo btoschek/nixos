@@ -1,39 +1,39 @@
 { config, lib, ... }:
 
 let
-  cfg = config.serviceSettings.immich;
+  cfg = config.serviceSettings.jellyfin;
   traefik-utils = import ./traefik/utils.nix;
 in
 {
   options = {
-    serviceSettings.immich = {
-      enable = lib.mkEnableOption "Enable immich";
+    serviceSettings.jellyfin = {
+      enable = lib.mkEnableOption "Enable jellyfin";
 
       url = lib.mkOption {
         type = lib.types.str;
-        default = "immich.${config.serviceSettings.domain}";
+        default = "jellyfin.${config.serviceSettings.domain}";
         description = "URL the service should be accessible at (requires traefik)";
       };
     };
   };
 
   config = lib.mkIf cfg.enable {
-    # Mount app-specific network shares
-    fileSystems."/mnt/vault" = {
-      device = "${config.serviceSettings.nasIp}:/mnt/storage0/vault";
+    # Mount network share (media gallery)
+    fileSystems."/mnt/jellyfin/media" = {
+      device = "${config.serviceSettings.nasIp}:/mnt/storage0/media";
       fsType = "nfs";
     };
 
-    services.immich = {
+    services.jellyfin = {
       enable = true;
     };
 
     # Register service to reverse proxy
     services.traefik.dynamicConfigOptions = lib.mkIf config.serviceSettings.traefik.enable (
       traefik-utils.generateBasicTraefikEntry {
-        service = "immich";
+        service = "jellyfin";
         url = cfg.url;
-        internal = "http://${config.services.immich.host}:${builtins.toString config.services.immich.port}";
+        internal = "http://localhost:8096";
       }
     );
   };

@@ -4,6 +4,7 @@
   imports = [
     ./traefik
     ./immich.nix
+    ./jellyfin.nix
     ./homepage.nix
   ];
 
