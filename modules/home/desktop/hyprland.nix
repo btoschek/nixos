@@ -143,7 +143,7 @@ in
           "10, monitor:$monitor0"
         ];
 
-        windowrulev2 = [
+        windowrule = [
           # Terminal
           "opacity 0.9 override 0.7 override, class:^(kitty)$"
 
@@ -153,9 +153,9 @@ in
           "float, class:^(steam)$, title:^(Friends List)$"
 
           # Games
-          "workspace 10 silent, initialclass:^steam_app_\\d+$"
-          "content game, initialclass:^steam_app_\\d+$"
-          "rounding 0, initialclass:^steam_app_\\d+$"
+          "workspace 10 silent, initialClass:^steam_app_\\d+$"
+          "content game, initialClass:^steam_app_\\d+$"
+          "rounding 0, initialClass:^steam_app_\\d+$"
 
           "workspace 10 silent, class:^(GT\\:\\ New Horizons)(.*)$"
           "content game, class:^(GT\\:\\ New Horizons)(.*)$"
@@ -169,9 +169,9 @@ in
           "workspace 3 silent, class:^(org.qutebrowser.qutebrowser)$"
           "workspace 3 silent, class:^(zen)$"
 
-          "float, initialtitle:^(Picture-in-Picture)$"
-          "size 30% 30%, initialtitle:^(Picture-in-Picture)$"
-          "move 100%-w-30 100%-w-30, initialtitle:^(Picture-in-Picture)$"
+          "float, initialTitle:^(Picture-in-Picture)$"
+          "size 30% 30%, initialTitle:^(Picture-in-Picture)$"
+          "move 100%-w-30 100%-w-30, initialTitle:^(Picture-in-Picture)$"
         ];
 
         "$mod" = "SUPER";
