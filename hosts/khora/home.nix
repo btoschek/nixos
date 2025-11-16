@@ -4,10 +4,12 @@
 
   imports = [
     inputs.spicetify-nix.homeManagerModules.spicetify
+    inputs.stylix.homeModules.stylix
     ../../modules/home/programs/media.nix
     ../../modules/home/desktop
     ../../modules/home/terminal
     ../../modules/home/development
+    ../../modules/home/stylix.nix
   ];
 
   userSettings = {

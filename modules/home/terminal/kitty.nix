@@ -14,12 +14,6 @@ in
     programs.kitty = {
       enable = true;
 
-      font = {
-        package = pkgs.nerd-fonts.hack;
-        name = "Hack Nerd Font";
-        size = 12;
-      };
-
       shellIntegration = {
         mode = "no-cursor";
         enableZshIntegration = config.programs.zsh.enable;
@@ -93,38 +87,6 @@ in
         active_tab_background = "#eee";
         inactive_tab_foreground = "#444";
         inactive_tab_background = "#999";
-
-        # black
-        color0 = "#414868";
-        color8 = "#414868";
-
-        # red
-        color1 = "#f7768e";
-        color9 = "#f7768e";
-
-        # green
-        color2 = "#73daca";
-        color10 = "#73daca";
-
-        # yellow
-        color3 = "#e0af68";
-        color11 = "#e0af68";
-
-        # blue
-        color4 = "#7aa2f7";
-        color12 = "#7aa2f7";
-
-        # magenta
-        color5 = "#bb9af7";
-        color13 = "#bb9af7";
-
-        # cyan
-        color6 = "#7dcfff";
-        color14 = "#7dcfff";
-
-        # white
-        color7 = "#c0caf5";
-        color15 = "#c0caf5";
 
         cursor = "#c0caf5";
 

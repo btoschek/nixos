@@ -25,14 +25,6 @@ in
       copyq
     ];
 
-    home.pointerCursor = {
-      enable = true;
-      package = pkgs.bibata-cursors;
-      name = "Bibata-Modern-Ice";
-      hyprcursor.enable = true;
-      size = 24;
-    };
-
     wayland.windowManager.hyprland = {
       enable = true;
       package = pkgs.hyprland;
@@ -78,8 +70,9 @@ in
           gaps_out = 10;                                                # Gaps between windows and monitor edge
           border_size = 2;                                              # Size of the border around windows
 
-          "col.active_border" = "rgba(7aa2f7ee) rgba(f7768eee) 30deg";  # Border color of active windows
-          "col.inactive_border" = "rgba(595959aa)";                     # Border color of inactive windows
+          # NOTE: Those are currently being set by stylix
+#          "col.active_border" = "rgba(7aa2f7ee) rgba(f7768eee) 30deg";  # Border color of active windows
+#          "col.inactive_border" = "rgba(595959aa)";                     # Border color of inactive windows
 
           layout = "dwindle";                                           # Default layout to use ("dwindle" | "master")
         };
