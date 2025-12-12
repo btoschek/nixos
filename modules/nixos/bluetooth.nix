@@ -25,8 +25,9 @@
     };
   };
 
+  # NOTE: Package currently not building because of missing kernel functions
   # Driver for Xbox One wireless controllers
-  hardware.xpadneo.enable = true;
+  # hardware.xpadneo.enable = false;
 
   # NOTE: Set by `hardware.xpadneo.enable = true`
   # boot = {

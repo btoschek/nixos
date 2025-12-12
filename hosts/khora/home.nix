@@ -53,6 +53,8 @@
 
   programs.gpg.enable = true;
 
+  programs.floorp.enable = true;
+
   services.gpg-agent = {
     enable = true;
     pinentry.package = pkgs.pinentry-curses;

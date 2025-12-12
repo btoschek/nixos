@@ -161,6 +161,7 @@ in
           "workspace 3 silent, class:^(firefox)$"
           "workspace 3 silent, class:^(org.qutebrowser.qutebrowser)$"
           "workspace 3 silent, class:^(zen)$"
+          "workspace 3 silent, class:^(floorp)$"
 
           "float, initialTitle:^(Picture-in-Picture)$"
           "size 30% 30%, initialTitle:^(Picture-in-Picture)$"
