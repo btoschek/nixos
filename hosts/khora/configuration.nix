@@ -1,10 +1,6 @@
 { inputs, pkgs, ... }:
 
 {
-  nix.extraOptions = ''
-    experimental-features = nix-command flakes
-  '';
-
   nixpkgs.config.allowUnfree = true;
 
   imports =
@@ -44,7 +40,10 @@
       dates = "daily";
       options = "--delete-older-than 10d";
     };
-    settings.auto-optimise-store = true;
+    settings = {
+      experimental-features = [ "nix-command" "flakes" ];
+      auto-optimise-store = true;
+    };
   };
 
   # Set your time zone.

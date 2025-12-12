@@ -28,10 +28,11 @@
   # Driver for Xbox One wireless controllers
   hardware.xpadneo.enable = true;
 
-  boot = {
-    extraModulePackages = with config.boot.kernelPackages; [ xpadneo ];
-    extraModprobeConfig = ''
-      options bluetooth disable_ertm=Y
-    '';
-  };
+  # NOTE: Set by `hardware.xpadneo.enable = true`
+  # boot = {
+  #   extraModulePackages = with config.boot.kernelPackages; [ xpadneo ];
+  #   extraModprobeConfig = ''
+  #     options bluetooth disable_ertm=Y
+  #   '';
+  # };
 }
