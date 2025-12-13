@@ -19,21 +19,12 @@
     };
 
     settings.LE = {
-      MinConnectionInterval = "7";
-      MaxConnectionInterval = "9";
-      ConnectionLatency = "0";
+      MinConnectionInterval = 7;
+      MaxConnectionInterval = 9;
+      ConnectionLatency = 0;
     };
   };
 
-  # NOTE: Package currently not building because of missing kernel functions
   # Driver for Xbox One wireless controllers
-  # hardware.xpadneo.enable = false;
-
-  # NOTE: Set by `hardware.xpadneo.enable = true`
-  # boot = {
-  #   extraModulePackages = with config.boot.kernelPackages; [ xpadneo ];
-  #   extraModprobeConfig = ''
-  #     options bluetooth disable_ertm=Y
-  #   '';
-  # };
+  hardware.xpadneo.enable = false;
 }
