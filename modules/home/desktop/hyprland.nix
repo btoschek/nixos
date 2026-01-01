@@ -81,7 +81,7 @@ in
           disable_hyprland_logo = true;                                 # Disable default Anime girl background
           disable_splash_rendering = true;                              # Disable splash text
           animate_manual_resizes = true;                                # Play a small animation when resizing manually
-          new_window_takes_over_fullscreen = 2;                         # Disable current fullscreen when opening a new window
+          on_focus_under_fullscreen = 2;                                # Disable current fullscreen when opening a new window
         };
 
         ecosystem = {
@@ -138,34 +138,42 @@ in
 
         windowrule = [
           # Terminal
-          "opacity 0.9 override 0.7 override, class:^(kitty)$"
+          "match:class ^(kitty)$, opacity 0.9 override 0.7 override"
 
           # Steam
-          "workspace 5 silent, class:^(steam)$"
-          "float, class:^(steam)$, title:^(Screenshot Manager)$"
-          "float, class:^(steam)$, title:^(Friends List)$"
+          "match:class ^(steam)$, workspace 5 silent"
+          "match:class ^(steam)$, match:title ^(Screenshot Manager)$, float on"
+          "match:class ^(steam)$, match:title ^(Friends List)$, float on"
 
           # Games
-          "workspace 10 silent, initialClass:^steam_app_\\d+$"
-          "content game, initialClass:^steam_app_\\d+$"
-          "rounding 0, initialClass:^steam_app_\\d+$"
+          # {
+          #   "name" = "Steam Games";
+          #   "match:initial_class" = "^steam_app_\\d+$";
 
-          "workspace 10 silent, class:^(GT\\:\\ New Horizons)(.*)$"
-          "content game, class:^(GT\\:\\ New Horizons)(.*)$"
+          #   "workspace" = "10 silent";
+          #   "content" = "game";
+          #   "rounding" = 0;
+          # }
+          "match:initial_class ^steam_app_\\d+$, workspace 10 silent"
+          "match:initial_class ^steam_app_\\d+$, content game"
+          "match:initial_class ^steam_app_\\d+$, rounding 0"
+
+          "match:class ^(GT\\:\\ New Horizons)(.*)$, workspace 10 silent"
+          "match:class ^(GT\\:\\ New Horizons)(.*)$, content game"
 
           # Workspace 4: Multimedia / Communication
-          "workspace 4 silent, class:^(spotify)$"
-          "workspace 4 silent, class:^(discord)$"
+          "match:class ^(spotify)$, workspace 4 silent"
+          "match:class ^(discord)$, workspace 4 silent"
 
           # Workspace 3: Browsers
-          "workspace 3 silent, class:^(firefox)$"
-          "workspace 3 silent, class:^(org.qutebrowser.qutebrowser)$"
-          "workspace 3 silent, class:^(zen)$"
-          "workspace 3 silent, class:^(floorp)$"
+          "match:class ^(firefox)$, workspace 3 silent"
+          "match:class ^(org.qutebrowser.qutebrowser)$, workspace 3 silent"
+          "match:class ^(zen)$, workspace 3 silent"
+          "match:class ^(floorp)$, workspace 3 silent"
 
-          "float, initialTitle:^(Picture-in-Picture)$"
-          "size 30% 30%, initialTitle:^(Picture-in-Picture)$"
-          "move 100%-w-30 100%-w-30, initialTitle:^(Picture-in-Picture)$"
+          "match:initial_title ^(Picture-in-Picture)$, float on"
+          "match:initial_title ^(Picture-in-Picture)$, size 30% 30%"
+          "match:initial_title ^(Picture-in-Picture)$, move 100%-w-30 100%-w-30"
         ];
 
         "$mod" = "SUPER";
