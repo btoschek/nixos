@@ -8,35 +8,50 @@
     ../../services
   ];
 
-  nixpkgs.hostPlatform = lib.mkDefault "x86_64-linux";
+  # ============================================================
+  #  Custom module settings
+  # ============================================================
 
   serviceSettings = {
     domain = "home.lab";
     nasIp = "192.168.20.100";
 
     traefik.enable = true;
-    immich.enable = true;
+    # immich.enable = true;
     jellyfin.enable = true;
     homepage.enable = true;
   };
 
-  nix.extraOptions = ''
-    experimental-features = nix-command flakes
-  '';
+  nixpkgs.hostPlatform = lib.mkDefault "x86_64-linux";
+
+  nix = {
+    settings.experimental-features = [ "nix-command" "flakes" ];
+  };
 
   # ============================================================
   #  General system settings
   # ============================================================
 
-  # Use the systemd-boot EFI bootloader
-  boot.loader = {
-    systemd-boot.enable = true;
-    efi.canTouchEfiVariables = true;
+  boot = {
+    # Roll back to empty root filesystem on each boot    old: postDeviceCommands
+    # https://discourse.nixos.org/t/zfs-rollbacks-suddenly-stopped-working/55333/3
+    initrd.postResumeCommands = lib.mkAfter ''
+      zfs rollback -r rpool/local/root@blank
+    '';
+
+    # Use the systemd-boot EFI bootloader
+    loader = {
+      systemd-boot.enable = true;
+      efi.canTouchEfiVariables = true;
+    };
   };
 
   # Networking
   networking = {
     hostName = "gemini";
+    hostId = builtins.substring 0 8 (
+      builtins.hashString "sha256" config.networking.hostName
+    );
     networkmanager.enable = true;
     firewall = {
       enable = true;
@@ -53,6 +68,30 @@
   i18n.defaultLocale = "en_US.UTF-8";
   console = {
     keyMap = "de";
+  };
+
+  # ============================================================
+  #  Impermanence
+  # ============================================================
+
+  environment.persistence."/persist" = {
+    enable = true;
+    hideMounts = true;
+    allowTrash = false;
+
+    directories = [
+      "/var/log"
+      # See: https://github.com/nix-community/impermanence/issues/178
+      "/var/lib/nixos"
+    ];
+
+    files = [
+      "/etc/machine-id"
+      "/etc/ssh/ssh_host_ed25519_key.pub"
+      "/etc/ssh/ssh_host_ed25519_key"
+      "/etc/ssh/ssh_host_rsa_key.pub"
+      "/etc/ssh/ssh_host_rsa_key"
+    ];
   };
 
   # ============================================================

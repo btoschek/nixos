@@ -36,5 +36,12 @@ in
         internal = "http://localhost:8096";
       }
     );
+
+    # Retain program data across reboots
+    environment.persistence."/persist" = {
+      directories = [
+        "/var/lib/jellyfin"
+      ];
+    };
   };
 }

@@ -33,9 +33,11 @@
       url = "github:nix-community/disko";
       inputs.nixpkgs.follows = "nixpkgs";
     };
+
+    impermanence.url = "github:nix-community/impermanence";
   };
 
-  outputs = { self, nixpkgs, ... }@inputs:
+  outputs = { self, nixpkgs, sops-nix, impermanence, ... }@inputs:
     {
       nixosConfigurations = {
 
@@ -52,6 +54,8 @@
           specialArgs = { inherit inputs; };
           modules = [
             ./hosts/gemini/configuration.nix
+            impermanence.nixosModules.impermanence
+            sops-nix.nixosModules.sops
           ];
         };
       };

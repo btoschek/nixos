@@ -19,33 +19,60 @@
                 mountOptions = [ "umask=0077" ];
               };
             };
-            root = {
+            zfs = {
               size = "100%";
               content = {
-                type = "btrfs";
-                extraArgs = [ "-f" ]; # Override existing partitions
-                mountpoint = "/partition-root";
-                # Subvolumes must set a mountpoint in order to be mounted,
-                # unless their parent is mounted
-                subvolumes = {
-                  "/rootfs" = {
-                    mountpoint = "/";
-                  };
-                  "/home" = {
-                    mountOptions = [ "compress=zstd" ];
-                    mountpoint = "/home";
-                  };
-                  "/home/btoschek" = { };
-                  "/nix" = {
-                    mountOptions = [ "compress=zstd" "noatime" ];
-                    mountpoint = "/nix";
-                  };
-                };
+                type = "zfs";
+                pool = "rpool";
               };
             };
           };
         };
       };
     };
+    zpool = {
+      rpool = {
+        type = "zpool";
+        datasets = {
+
+          # Don't mount parent filesystems
+          local = {
+            type = "zfs_fs";
+            options.mountpoint = "none";
+          };
+          safe = {
+            type = "zfs_fs";
+            options.mountpoint = "none";
+          };
+
+          # Impermanence mounts
+          "local/root" = {
+            type = "zfs_fs";
+            mountpoint = "/";
+            options.mountpoint = "legacy";
+            postCreateHook = ''
+              zfs snapshot rpool/local/root@blank
+            '';
+          };
+          "local/nix" = {
+            type = "zfs_fs";
+            mountpoint = "/nix";
+            options.mountpoint = "legacy";
+          };
+          "safe/home" = {
+            type = "zfs_fs";
+            mountpoint = "/home";
+            options.mountpoint = "legacy";
+          };
+          "safe/persist" = {
+            type = "zfs_fs";
+            mountpoint = "/persist";
+            options.mountpoint = "legacy";
+          };
+        };
+      };
+    };
   };
+
+  fileSystems."/persist".neededForBoot = true;
 }
