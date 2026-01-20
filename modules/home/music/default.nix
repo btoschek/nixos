@@ -4,6 +4,7 @@
 
   imports = [
     ./mpd.nix
+    ./spotify.nix
   ];
 
   home.packages = with pkgs; [
@@ -16,6 +17,7 @@
     audacity
   ];
 
+  # TODO: Move to media
   programs = {
     mpv = {
       enable = true;
