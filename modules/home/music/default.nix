@@ -1,8 +1,19 @@
 { config, pkgs, ... }:
 
 {
+
+  imports = [
+    ./mpd.nix
+  ];
+
   home.packages = with pkgs; [
     playerctl
+
+    # Metadata
+    picard
+
+    # Post processing
+    audacity
   ];
 
   programs = {

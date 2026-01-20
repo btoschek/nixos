@@ -5,7 +5,7 @@
   imports = [
     inputs.spicetify-nix.homeManagerModules.spicetify
     inputs.stylix.homeModules.stylix
-    ../../modules/home/programs/media.nix
+    ../../modules/home
     ../../modules/home/desktop
     ../../modules/home/terminal
     ../../modules/home/development
@@ -16,6 +16,8 @@
     hyprland.enable = true;
     kitty.enable = true;
     gaming.enable = true;
+
+    mpd.enable = true;
   };
 
   # Home Manager needs a bit of information about you and the paths it should

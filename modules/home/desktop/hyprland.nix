@@ -180,6 +180,7 @@ in
 
         bind = [
           "$mod, Return, exec, kitty"
+          "$mod, Z     , exec, kitty -e rmpc"
 
           "$mod, C    , killactive,"                                    # Kill the currently focused window
           "$mod, V    , togglefloating,"                                # Toggle floating behaviour for focused window
