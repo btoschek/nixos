@@ -6,7 +6,6 @@
     inputs.spicetify-nix.homeManagerModules.spicetify
     inputs.stylix.homeModules.stylix
     ../../modules/home
-    ../../modules/home/desktop
     ../../modules/home/terminal
     ../../modules/home/development
     ../../modules/home/stylix.nix
@@ -36,8 +35,7 @@
   home.stateVersion = "25.05"; # Please read the comment before changing.
 
   home.packages = [
-    pkgs.nerd-fonts.hack
-    inputs.nixvim.packages.x86_64-linux.default
+    inputs.nixvim.packages.${pkgs.system}.default
   ];
 
   programs.eza = {
