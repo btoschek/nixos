@@ -3,18 +3,6 @@
 {
   nixpkgs.config.allowUnfree = true;
 
-  # Use temporary overlay for floorp as their upstream versioning just doesn't give a damn
-  nixpkgs.overlays = [
-    (final: prev: {
-      floorp-bin-unwrapped = prev.floorp-bin-unwrapped.overrideAttrs (old: {
-        src = final.fetchurl {
-          url = "https://github.com/Floorp-Projects/Floorp/releases/download/v12.8.3/floorp-linux-x86_64.tar.xz";
-          hash = "sha256-DmZCyFhP3N6VPTR3OeuHyrLmvcfUZXHeLsn/TTu+I10=";
-        };
-      });
-    })
-  ];
-
   imports =
     [ # Include the results of the hardware scan.
       ./hardware-configuration.nix
