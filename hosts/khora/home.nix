@@ -13,6 +13,8 @@
 
   userSettings = {
     hyprland.enable = true;
+    dunst.enable = true;
+
     kitty.enable = true;
     gaming.enable = true;
 
