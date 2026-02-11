@@ -5,7 +5,7 @@
     enable = true;
     autocd = true;
     enableCompletion = true;
-    dotDir = ".config/zsh";
+    dotDir = "${config.home.homeDirectory}/.config/zsh";  # TODO: Add xdg module
     shellAliases = {
       ls = "eza --icons -l";
       v = "nvim";
