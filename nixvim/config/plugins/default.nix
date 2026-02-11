@@ -6,6 +6,7 @@
     ./git.nix
     ./treesitter.nix
     ./lsp.nix
+    ./conform.nix
   ];
 
   plugins.bufferline.enable = true;
