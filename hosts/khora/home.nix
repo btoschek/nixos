@@ -54,8 +54,6 @@
 
   programs.yt-dlp.enable = true;
 
-  programs.gpg.enable = true;
-
   programs.floorp.enable = true;
 
   services.gpg-agent = {

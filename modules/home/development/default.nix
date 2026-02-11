@@ -10,4 +10,6 @@
     enable = true;
     enableZshIntegration = config.programs.zsh.enable;
   };
+
+  programs.gpg.enable = true;
 }
