@@ -9,6 +9,9 @@
         rust = [
           "rustfmt"
         ];
+        nix = [
+          "alejandra"
+        ];
       };
 
       formatters = {

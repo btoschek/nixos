@@ -38,6 +38,9 @@
 
   home.packages = [
     inputs.nixvim.packages.${pkgs.system}.default
+
+    # Nix code formatter
+    pkgs.alejandra
   ];
 
   programs.eza = {
