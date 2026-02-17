@@ -10,7 +10,7 @@
     };
 
     nixvim = {
-      url = "path:./nixvim";
+      url = "github:nix-community/nixvim";
       inputs.nixpkgs.follows = "nixpkgs";
     };
 
@@ -43,27 +43,31 @@
     };
   };
 
-  outputs = { self, nixpkgs, sops-nix, impermanence, ... }@inputs:
-    {
-      nixosConfigurations = {
+  outputs = {
+    self,
+    nixpkgs,
+    sops-nix,
+    impermanence,
+    ...
+  } @ inputs: {
+    nixosConfigurations = {
+      # Main PC
+      khora = nixpkgs.lib.nixosSystem {
+        specialArgs = {inherit inputs;};
+        modules = [
+          ./hosts/khora/configuration.nix
+        ];
+      };
 
-        # Main PC
-        khora = nixpkgs.lib.nixosSystem {
-          specialArgs = { inherit inputs; };
-          modules = [
-            ./hosts/khora/configuration.nix
-          ];
-        };
-
-        # Homeserver
-        gemini = nixpkgs.lib.nixosSystem {
-          specialArgs = { inherit inputs; };
-          modules = [
-            ./hosts/gemini/configuration.nix
-            impermanence.nixosModules.impermanence
-            sops-nix.nixosModules.sops
-          ];
-        };
+      # Homeserver
+      gemini = nixpkgs.lib.nixosSystem {
+        specialArgs = {inherit inputs;};
+        modules = [
+          ./hosts/gemini/configuration.nix
+          impermanence.nixosModules.impermanence
+          sops-nix.nixosModules.sops
+        ];
       };
     };
+  };
 }

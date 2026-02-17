@@ -1,20 +1,18 @@
-{ pkgs, ... }:
-
-{
+{pkgs, ...}: {
   stylix = {
     enable = true;
 
     base16Scheme = "${pkgs.base16-schemes}/share/themes/tokyo-night-dark.yaml";
 
     fonts = {
-#       serif = {
-#         package = pkgs.nerd-fonts.hack;
-#         name = "Hack Nerd Font Propo";
-#       };
-#       sansSerif = {
-#         package = pkgs.nerd-fonts.hack;
-#         name = "Hack Nerd Font Propo";
-#       };
+      #       serif = {
+      #         package = pkgs.nerd-fonts.hack;
+      #         name = "Hack Nerd Font Propo";
+      #       };
+      #       sansSerif = {
+      #         package = pkgs.nerd-fonts.hack;
+      #         name = "Hack Nerd Font Propo";
+      #       };
       monospace = {
         package = pkgs.nerd-fonts.hack;
         name = "Hack Nerd Font Mono";
@@ -29,8 +27,8 @@
     };
 
     targets = {
-      # Don't style neovim as nixvim config already includes colorscheme
-      neovim.enable = false;
+      # Don't style nixvim as it already includes colorscheme
+      nixvim.enable = false;
     };
   };
 }

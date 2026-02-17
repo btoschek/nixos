@@ -1,7 +1,9 @@
-{ config, inputs, pkgs, ... }:
-
 {
-
+  config,
+  inputs,
+  pkgs,
+  ...
+}: {
   imports = [
     inputs.spicetify-nix.homeManagerModules.spicetify
     inputs.stylix.homeModules.stylix
@@ -14,6 +16,7 @@
   userSettings = {
     hyprland.enable = true;
     dunst.enable = true;
+    neovim.enable = true;
 
     kitty.enable = true;
     gaming.enable = true;
@@ -37,8 +40,6 @@
   home.stateVersion = "25.05"; # Please read the comment before changing.
 
   home.packages = [
-    inputs.nixvim.packages.${pkgs.system}.default
-
     # Nix code formatter
     pkgs.alejandra
   ];
