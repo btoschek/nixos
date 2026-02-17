@@ -6,6 +6,7 @@
     ./lsp.nix
     ./conform.nix
     ./snacks.nix
+    ./folding.nix
   ];
 
   plugins.bufferline.enable = true;
