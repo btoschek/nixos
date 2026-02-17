@@ -7,6 +7,7 @@
     ./treesitter.nix
     ./lsp.nix
     ./conform.nix
+    ./snacks.nix
   ];
 
   plugins.bufferline.enable = true;
