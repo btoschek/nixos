@@ -1,6 +1,8 @@
-{ config, ... }:
-
 {
+  config,
+  lib,
+  ...
+}: {
   plugins.blink-cmp-git.enable = true;
 
   plugins.blink-cmp = {
@@ -41,27 +43,33 @@
         ];
       };
       sources = {
-        default = [
-          "lsp"
-          "path"
-          "buffer"
-        ]
-        ++ (if config.plugins.blink-cmp-git.enable then [ "git" ] else []);
+        default =
+          [
+            "lsp"
+            "path"
+            "buffer"
+          ]
+          ++ (
+            lib.optionals
+            config.plugins.blink-cmp-git.enable
+            ["git"]
+          );
 
-        providers = { }
-        //
-        (if config.plugins.blink-cmp-git.enable then {
-            git = {
-              module = "blink-cmp-git";
-              name = "git";
-              score_offset = 100;
-              opts = {
-                commit = {};
-                git_centers = { github = {}; };
+        providers =
+          {}
+          // (
+            lib.optionalAttrs config.plugins.blink-cmp-git.enable
+            {
+              git = {
+                module = "blink-cmp-git";
+                name = "git";
+                opts = {
+                  commit = {};
+                  git_centers = {github = {};};
+                };
               };
-            };
-          } else {}
-        );
+            }
+          );
       };
     };
   };

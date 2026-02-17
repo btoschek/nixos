@@ -1,6 +1,4 @@
-{ config, ... }:
-
-{
+{config, ...}: {
   imports = [
     ./blink-cmp.nix
     ./git.nix
