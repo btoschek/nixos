@@ -5,12 +5,7 @@
   ...
 }: {
   imports = [
-    inputs.spicetify-nix.homeManagerModules.spicetify
-    inputs.stylix.homeModules.stylix
     ../../modules/home
-    ../../modules/home/terminal
-    ../../modules/home/development
-    ../../modules/home/stylix.nix
   ];
 
   userSettings = {
@@ -63,11 +58,6 @@
   services.gpg-agent = {
     enable = true;
     pinentry.package = pkgs.pinentry-curses;
-  };
-
-  # Environment variables available to shells managed by home-manager
-  home.sessionVariables = {
-    EDITOR = "nvim";
   };
 
   # Let Home Manager install and manage itself.

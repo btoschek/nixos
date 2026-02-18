@@ -17,7 +17,9 @@ in {
   };
 
   config = lib.mkIf cfg.enable {
-    # TODO: Set default editor
+    home.sessionVariables = {
+      EDITOR = "nvim";
+    };
 
     programs.nixvim = {
       enable = true;

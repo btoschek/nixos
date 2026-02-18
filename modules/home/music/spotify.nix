@@ -1,11 +1,18 @@
-{ config, lib, inputs, pkgs, ... }:
-
-let
+{
+  config,
+  lib,
+  inputs,
+  pkgs,
+  ...
+}: let
   cfg = config.userSettings.spotify;
 
   spicePkgs = inputs.spicetify-nix.legacyPackages.${pkgs.system};
-in
-{
+in {
+  imports = [
+    inputs.spicetify-nix.homeManagerModules.spicetify
+  ];
+
   options = {
     userSettings.spotify = {
       enable = lib.mkEnableOption "Enable spotify";
