@@ -1,11 +1,15 @@
-{ config, inputs, lib, pkgs, meta, ... }:
-
 {
-
+  config,
+  inputs,
+  lib,
+  pkgs,
+  meta,
+  ...
+}: {
   imports = [
     ./disko.nix
     inputs.disko.nixosModules.disko
-    ../../services
+    ../../modules/services
   ];
 
   # ============================================================
@@ -25,7 +29,7 @@
   nixpkgs.hostPlatform = lib.mkDefault "x86_64-linux";
 
   nix = {
-    settings.experimental-features = [ "nix-command" "flakes" ];
+    settings.experimental-features = ["nix-command" "flakes"];
   };
 
   # ============================================================
@@ -56,9 +60,9 @@
     firewall = {
       enable = true;
       allowedTCPPorts = [
-        80                     # HTTP
-        443                    # HTTPS
-        8080                   # Traefik dashboard (HTTP)
+        80 # HTTP
+        443 # HTTPS
+        8080 # Traefik dashboard (HTTP)
       ];
     };
   };
@@ -106,7 +110,7 @@
       PasswordAuthentication = false;
       KbdInteractiveAuthentication = false;
       PermitRootLogin = "no";
-      AllowUsers = [ "btoschek" ];
+      AllowUsers = ["btoschek"];
     };
   };
 
@@ -116,7 +120,7 @@
   # Create a user account
   users.users.btoschek = {
     isNormalUser = true;
-    extraGroups = [ "wheel" ];
+    extraGroups = ["wheel"];
     openssh.authorizedKeys.keys = [
       "ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAIOb2UpaouHhHl7+DOclqcvaiWcvuHbpLpOqQ5d+7Z1GZ btoschek"
     ];
@@ -125,11 +129,11 @@
   # TODO: Delete, just for testing
   security.sudo.extraRules = [
     {
-      users = [ "btoschek" ];
+      users = ["btoschek"];
       commands = [
         {
           command = "ALL";
-          options = [ "SETENV" "NOPASSWD" ];
+          options = ["SETENV" "NOPASSWD"];
         }
       ];
     }
@@ -137,5 +141,4 @@
 
   # KEEP THIS AS IS. THIS DOESN'T AFFECT ANYTHING BUT MAY BREAK EVERYTHING
   system.stateVersion = "24.05";
-
 }

@@ -1,10 +1,11 @@
-{ config, lib, ... }:
-
-let
+{
+  config,
+  lib,
+  ...
+}: let
   cfg = config.serviceSettings.immich;
   traefik-utils = import ./traefik/utils.nix;
-in
-{
+in {
   options = {
     serviceSettings.immich = {
       enable = lib.mkEnableOption "Enable immich";

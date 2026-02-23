@@ -1,6 +1,9 @@
-{ config, lib, pkgs, ... }:
-
-let
+{
+  config,
+  lib,
+  pkgs,
+  ...
+}: let
   background = pkgs.fetchurl {
     name = "homepage-background.jpg";
     url = "https://images.hdqwalls.com/wallpapers/airplane-dawn-dusk-flight-sunrise-sky-24.jpg";
@@ -16,8 +19,7 @@ let
 
   cfg = config.serviceSettings.homepage;
   traefik-utils = import ./traefik/utils.nix;
-in
-{
+in {
   options = {
     serviceSettings.homepage = {
       enable = lib.mkEnableOption "Enable homepage";
@@ -82,23 +84,28 @@ in
 
       services = [
         {
-          Media = [ ]
-            ++ (lib.lists.optionals config.serviceSettings.immich.enable [{
-              Immich = {
-                description = "Image gallery";
-                icon = "immich.svg";
-                href = "https://${config.serviceSettings.immich.url}/";
-                ping = config.serviceSettings.immich.url;
-              };
-            }])
-            ++ (lib.lists.optionals config.serviceSettings.jellyfin.enable [{
-              Jellyfin = {
-                description = "Watch local movies and series";
-                icon = "jellyfin.svg";
-                href = "https://${config.serviceSettings.jellyfin.url}/";
-                ping = config.serviceSettings.jellyfin.url;
-              };
-            }]);
+          Media =
+            []
+            ++ (lib.lists.optionals config.serviceSettings.immich.enable [
+              {
+                Immich = {
+                  description = "Image gallery";
+                  icon = "immich.svg";
+                  href = "https://${config.serviceSettings.immich.url}/";
+                  ping = config.serviceSettings.immich.url;
+                };
+              }
+            ])
+            ++ (lib.lists.optionals config.serviceSettings.jellyfin.enable [
+              {
+                Jellyfin = {
+                  description = "Watch local movies and series";
+                  icon = "jellyfin.svg";
+                  href = "https://${config.serviceSettings.jellyfin.url}/";
+                  ping = config.serviceSettings.jellyfin.url;
+                };
+              }
+            ]);
         }
         {
           "All-day life" = [

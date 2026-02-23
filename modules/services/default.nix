@@ -1,11 +1,9 @@
-{ lib, ... }:
-
-{
+{lib, ...}: {
   imports = [
     ./traefik
-    ./immich.nix
-    ./jellyfin.nix
     ./homepage.nix
+    ./jellyfin.nix
+    ./immich.nix
   ];
 
   options = {

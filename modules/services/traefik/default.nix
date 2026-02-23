@@ -1,9 +1,10 @@
-{ config, lib, ... }:
-
-let
-  cfg = config.serviceSettings.traefik;
-in
 {
+  config,
+  lib,
+  ...
+}: let
+  cfg = config.serviceSettings.traefik;
+in {
   options = {
     serviceSettings.traefik = {
       enable = lib.mkEnableOption "Enable traefik";

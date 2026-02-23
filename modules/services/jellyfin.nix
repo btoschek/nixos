@@ -1,10 +1,11 @@
-{ config, lib, ... }:
-
-let
+{
+  config,
+  lib,
+  ...
+}: let
   cfg = config.serviceSettings.jellyfin;
   traefik-utils = import ./traefik/utils.nix;
-in
-{
+in {
   options = {
     serviceSettings.jellyfin = {
       enable = lib.mkEnableOption "Enable jellyfin";
