@@ -29,6 +29,13 @@ in {
       enable = true;
     };
 
+    # Retain program data across reboots
+    environment.persistence."/persist" = {
+      directories = [
+        config.services.immich.mediaLocation
+      ];
+    };
+
     # Register service to reverse proxy
     services.traefik.dynamicConfigOptions = lib.mkIf config.serviceSettings.traefik.enable (
       traefik-utils.generateBasicTraefikEntry {

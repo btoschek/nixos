@@ -41,7 +41,7 @@ in {
     # Retain program data across reboots
     environment.persistence."/persist" = {
       directories = [
-        "/var/lib/jellyfin"
+        config.services.jellyfin.dataDir
       ];
     };
   };
