@@ -20,7 +20,7 @@
     nasIp = "192.168.20.100";
 
     traefik.enable = true;
-    # immich.enable = true;
+    immich.enable = true;
     jellyfin.enable = true;
     homepage.enable = true;
   };
