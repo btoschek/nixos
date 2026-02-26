@@ -41,6 +41,12 @@
         home-manager.follows = "home-manager";
       };
     };
+
+    # Private secrets flake
+    secrets = {
+      url = "git+ssh://git@github.com/btoschek/nixos-secrets.git";
+      inputs.nixpkgs.follows = "nixpkgs";
+    };
   };
 
   outputs = {
