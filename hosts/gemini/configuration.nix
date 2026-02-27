@@ -86,6 +86,9 @@
       "/var/log"
       # See: https://github.com/nix-community/impermanence/issues/178
       "/var/lib/nixos"
+
+      # Sops
+      "/run/secrets"
     ];
 
     files = [
