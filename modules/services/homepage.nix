@@ -53,6 +53,10 @@ in {
             style = "row";
             columns = 4;
           };
+          "All-day life" = {
+            style = "row";
+            columns = 4;
+          };
         };
       };
 
@@ -114,6 +118,13 @@ in {
                 description = "Smart home coordinator";
                 icon = "home-assistant.svg";
                 href = "http://192.168.101.100:8123";
+              };
+            }
+            {
+              "Ender 3 Pro" = {
+                description = "3D Printer";
+                icon = "mainsail.svg";
+                href = "http://192.168.100.50";
               };
             }
           ];
