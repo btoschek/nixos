@@ -68,10 +68,20 @@ in {
           };
         };
 
-        # Access Traefik dashboard for the time being (IP:8080)
+        # TODO: Bring Traefik dashboard behind auth middleware
         api = {
           dashboard = true;
-          insecure = true;
+          insecure = false;
+        };
+      };
+
+      # Use SSL encryption for dashboard endpoint
+      dynamicConfigOptions = {
+        http.routers."traefik-dashboard" = {
+          entryPoints = ["websecure"];
+          rule = "Host(`traefik.${config.serviceSettings.domain}`)";
+          service = "api@internal";
+          tls.certResolver = "letsencrypt";
         };
       };
     };
