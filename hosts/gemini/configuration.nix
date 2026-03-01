@@ -8,6 +8,7 @@
   imports = [
     ./disko.nix
     inputs.disko.nixosModules.disko
+    inputs.sops-nix.nixosModules.sops
     ../../modules/services
   ];
 
@@ -16,13 +17,19 @@
   # ============================================================
 
   serviceSettings = {
-    domain = "home.lab";
+    domain = "homelab.btoschek.org";
     nasIp = "192.168.20.100";
 
     traefik.enable = true;
     immich.enable = true;
     jellyfin.enable = true;
     homepage.enable = true;
+  };
+
+  sops = {
+    defaultSopsFile = builtins.toPath "${inputs.secrets}/secrets/secrets.yaml";
+    defaultSopsFormat = "yaml";
+    age.keyFile = "/persist/keys.txt";
   };
 
   nixpkgs.hostPlatform = lib.mkDefault "x86_64-linux";
@@ -86,9 +93,6 @@
       "/var/log"
       # See: https://github.com/nix-community/impermanence/issues/178
       "/var/lib/nixos"
-
-      # Sops
-      "/run/secrets"
     ];
 
     files = [
