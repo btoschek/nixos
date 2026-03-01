@@ -144,6 +144,15 @@
     }
   ];
 
+  # ============================================================
+  #  Packages
+  # ============================================================
+
+  environment.systemPackages = with pkgs; [
+    neovim
+    git
+  ];
+
   # KEEP THIS AS IS. THIS DOESN'T AFFECT ANYTHING BUT MAY BREAK EVERYTHING
   system.stateVersion = "24.05";
 }
