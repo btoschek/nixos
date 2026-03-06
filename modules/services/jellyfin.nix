@@ -19,15 +19,27 @@ in {
   };
 
   config = lib.mkIf cfg.enable {
-    # Mount network share (media gallery)
+    # ===============================================
+    #  Mounts
+    # ===============================================
+
+    # Media gallery
     fileSystems."/mnt/jellyfin/media" = {
       device = "${config.serviceSettings.nasIp}:/mnt/storage0/media";
       fsType = "nfs";
     };
 
+    # ===============================================
+    #  Service config
+    # ===============================================
+
     services.jellyfin = {
       enable = true;
     };
+
+    # ===============================================
+    #  Routing
+    # ===============================================
 
     # Register service to reverse proxy
     services.traefik.dynamicConfigOptions = lib.mkIf config.serviceSettings.traefik.enable (
@@ -38,8 +50,12 @@ in {
       }
     );
 
+    # ===============================================
+    #  Persistence / impermanence
+    # ===============================================
+
     # Retain program data across reboots
-    environment.persistence."/persist" = {
+    environment.persistence."${config.systemSettings.impermanence.mountPoint}" = {
       directories = [
         config.services.jellyfin.dataDir
       ];

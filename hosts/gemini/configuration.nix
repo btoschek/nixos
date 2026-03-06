@@ -9,6 +9,7 @@
     ./disko.nix
     inputs.disko.nixosModules.disko
     inputs.sops-nix.nixosModules.sops
+    ../../modules/nixos
     ../../modules/services
   ];
 
@@ -29,7 +30,7 @@
   sops = {
     defaultSopsFile = builtins.toPath "${inputs.secrets}/secrets/secrets.yaml";
     defaultSopsFormat = "yaml";
-    age.keyFile = "/persist/keys.txt";
+    age.keyFile = "${config.systemSettings.impermanence.mountPoint}/keys.txt";
   };
 
   nixpkgs.hostPlatform = lib.mkDefault "x86_64-linux";
@@ -83,7 +84,7 @@
   #  Impermanence
   # ============================================================
 
-  environment.persistence."/persist" = {
+  environment.persistence."${config.systemSettings.impermanence.mountPoint}" = {
     enable = true;
     hideMounts = true;
     allowTrash = false;

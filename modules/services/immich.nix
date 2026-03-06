@@ -30,7 +30,7 @@ in {
     };
 
     # Retain program data across reboots
-    environment.persistence."/persist" = {
+    environment.persistence."${config.systemSettings.impermanence.mountPoint}" = {
       directories = [
         config.services.immich.mediaLocation
 
