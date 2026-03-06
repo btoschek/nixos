@@ -1,15 +1,21 @@
-{ inputs, pkgs, ... }:
-
 {
+  inputs,
+  pkgs,
+  ...
+}: {
   nixpkgs.config.allowUnfree = true;
 
-  imports =
-    [ # Include the results of the hardware scan.
-      ./hardware-configuration.nix
-      inputs.home-manager.nixosModules.default
-      ./../../modules/nixos/bluetooth.nix
-      ./../../modules/nixos/sddm.nix
-    ];
+  imports = [
+    # Include the results of the hardware scan.
+    ./hardware-configuration.nix
+    inputs.home-manager.nixosModules.default
+    ../../modules/nixos
+    ./../../modules/nixos/sddm.nix
+  ];
+
+  systemSettings = {
+    bluetooth.enable = true;
+  };
 
   # Use grub instead of systemd-boot
   boot.loader = {
@@ -25,7 +31,7 @@
 
   # Pick only one of the below networking options.
   # networking.wireless.enable = true;  # Enables wireless support via wpa_supplicant.
-  networking.networkmanager.enable = true;  # Easiest to use and most distros use this by default.
+  networking.networkmanager.enable = true; # Easiest to use and most distros use this by default.
 
   # Automatic updating
   system.autoUpgrade = {
@@ -41,7 +47,7 @@
       options = "--delete-older-than 10d";
     };
     settings = {
-      experimental-features = [ "nix-command" "flakes" ];
+      experimental-features = ["nix-command" "flakes"];
       auto-optimise-store = true;
     };
   };
@@ -63,7 +69,6 @@
   };
 
   environment.sessionVariables = {
-
     # Hint electron apps to using wayland instead of X11
     NIXOS_OZONE_WL = "1";
 
@@ -125,7 +130,7 @@
   # Define a user account. Don't forget to set a password with ‘passwd’.
   users.users.btoschek = {
     isNormalUser = true;
-    extraGroups = [ "wheel" "scanner" "lp" ]; # Enable ‘sudo’ for the user. + scanner privileges
+    extraGroups = ["wheel" "scanner" "lp"]; # Enable ‘sudo’ for the user. + scanner privileges
     packages = with pkgs; [
       tree
       gnupg
@@ -134,7 +139,7 @@
   };
 
   home-manager = {
-    extraSpecialArgs = { inherit inputs; };
+    extraSpecialArgs = {inherit inputs;};
     users = {
       "btoschek" = import ./home.nix;
     };
@@ -152,7 +157,10 @@
 
     wally-cli
 
-    (discord.override { withOpenASAR = true; withVencord = true; })
+    (discord.override {
+      withOpenASAR = true;
+      withVencord = true;
+    })
     bottom
 
     obsidian
@@ -179,7 +187,7 @@
   programs.zsh.enable = true;
 
   # Open ports in the firewall.
-  networking.firewall.allowedTCPPorts = [ 8000 ]; # Occasional python http.server
+  networking.firewall.allowedTCPPorts = [8000]; # Occasional python http.server
 
   # This option defines the first version of NixOS you have installed on this particular machine,
   # and is used to maintain compatibility with application data (e.g. databases) created on older NixOS versions.
@@ -199,6 +207,4 @@
   #
   # For more information, see `man configuration.nix` or https://nixos.org/manual/nixos/stable/options#opt-system.stateVersion .
   system.stateVersion = "24.11"; # Did you read the comment?
-
 }
-
