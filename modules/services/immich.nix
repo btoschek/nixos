@@ -12,7 +12,7 @@ in {
 
       url = lib.mkOption {
         type = lib.types.str;
-        default = "immich.${config.serviceSettings.domain}";
+        default = "immich.${config.systemSettings.domain}";
         description = "URL the service should be accessible at (requires traefik)";
       };
     };
@@ -21,7 +21,7 @@ in {
   config = lib.mkIf cfg.enable {
     # Mount app-specific network shares
     fileSystems."/mnt/vault" = {
-      device = "${config.serviceSettings.nasIp}:/mnt/storage0/vault";
+      device = "${config.systemSettings.nasIp}:/mnt/storage0/vault";
       fsType = "nfs";
     };
 

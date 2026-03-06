@@ -12,7 +12,7 @@ in {
 
       url = lib.mkOption {
         type = lib.types.str;
-        default = "jellyfin.${config.serviceSettings.domain}";
+        default = "jellyfin.${config.systemSettings.domain}";
         description = "URL the service should be accessible at (requires traefik)";
       };
     };
@@ -25,7 +25,7 @@ in {
 
     # Media gallery
     fileSystems."/mnt/jellyfin/media" = {
-      device = "${config.serviceSettings.nasIp}:/mnt/storage0/media";
+      device = "${config.systemSettings.nasIp}:/mnt/storage0/media";
       fsType = "nfs";
     };
 

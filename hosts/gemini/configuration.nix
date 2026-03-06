@@ -17,10 +17,12 @@
   #  Custom module settings
   # ============================================================
 
-  serviceSettings = {
+  systemSettings = {
     domain = "homelab.btoschek.org";
     nasIp = "192.168.20.100";
+  };
 
+  serviceSettings = {
     traefik.enable = true;
     immich.enable = true;
     jellyfin.enable = true;

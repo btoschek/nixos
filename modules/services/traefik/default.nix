@@ -79,7 +79,7 @@ in {
       dynamicConfigOptions = {
         http.routers."traefik-dashboard" = {
           entryPoints = ["websecure"];
-          rule = "Host(`traefik.${config.serviceSettings.domain}`)";
+          rule = "Host(`traefik.${config.systemSettings.domain}`)";
           service = "api@internal";
           tls.certResolver = "letsencrypt";
         };

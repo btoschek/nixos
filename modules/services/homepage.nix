@@ -26,7 +26,7 @@ in {
 
       url = lib.mkOption {
         type = lib.types.str;
-        default = config.serviceSettings.domain;
+        default = config.systemSettings.domain;
         description = "URL the service should be accessible at (requires traefik)";
       };
     };
@@ -175,7 +175,7 @@ in {
     services.traefik.dynamicConfigOptions = lib.mkIf config.serviceSettings.traefik.enable (
       traefik-utils.generateBasicTraefikEntry {
         service = "homepage";
-        url = config.serviceSettings.homepage.url;
+        url = cfg.url;
         internal = "http://localhost:${builtins.toString config.services.homepage-dashboard.listenPort}";
       }
     );
