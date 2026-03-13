@@ -1,4 +1,4 @@
-{
+{config, ...}: {
   disko.devices = {
     disk = {
       nvme = {
@@ -16,7 +16,7 @@
                 type = "filesystem";
                 format = "vfat";
                 mountpoint = "/boot";
-                mountOptions = [ "umask=0077" ];
+                mountOptions = ["umask=0077"];
               };
             };
             zfs = {
@@ -34,7 +34,6 @@
       rpool = {
         type = "zpool";
         datasets = {
-
           # Don't mount parent filesystems
           local = {
             type = "zfs_fs";
@@ -64,9 +63,9 @@
             mountpoint = "/home";
             options.mountpoint = "legacy";
           };
-          "safe/persist" = {
+          "safe${config.systemSettings.impermanence.mountPoint}" = {
             type = "zfs_fs";
-            mountpoint = "/persist";
+            mountpoint = config.systemSettings.impermanence.mountPoint;
             options.mountpoint = "legacy";
           };
         };
@@ -74,5 +73,5 @@
     };
   };
 
-  fileSystems."/persist".neededForBoot = true;
+  fileSystems."${config.systemSettings.impermanence.mountPoint}".neededForBoot = true;
 }

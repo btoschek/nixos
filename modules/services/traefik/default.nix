@@ -85,5 +85,12 @@ in {
         };
       };
     };
+
+    # Retain program data across reboots
+    environment.persistence."${config.systemSettings.impermanence.mountPoint}" = {
+      directories = [
+        config.services.traefik.dataDir
+      ];
+    };
   };
 }
