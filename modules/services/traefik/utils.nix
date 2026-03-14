@@ -11,7 +11,6 @@
           entryPoints = ["websecure"];
           rule = "Host(`${url}`)";
           inherit service;
-          tls.certResolver = "letsencrypt";
         };
       };
 

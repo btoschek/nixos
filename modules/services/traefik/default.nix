@@ -45,7 +45,15 @@ in {
           websecure = {
             address = ":443";
             asDefault = true;
-            http.tls.certResolver = "letsencrypt";
+            http.tls = {
+              certResolver = "letsencrypt";
+              domains = [
+                {
+                  main = config.systemSettings.domain;
+                  sans = ["*.${config.systemSettings.domain}"];
+                }
+              ];
+            };
           };
         };
 
@@ -81,7 +89,6 @@ in {
           entryPoints = ["websecure"];
           rule = "Host(`traefik.${config.systemSettings.domain}`)";
           service = "api@internal";
-          tls.certResolver = "letsencrypt";
         };
       };
     };
