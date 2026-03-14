@@ -27,6 +27,7 @@
     immich.enable = true;
     jellyfin.enable = true;
     homepage.enable = true;
+    forgejo.enable = true;
   };
 
   sops = {

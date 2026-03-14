@@ -4,5 +4,6 @@
     ./homepage.nix
     ./jellyfin.nix
     ./immich.nix
+    ./forgejo.nix
   ];
 }

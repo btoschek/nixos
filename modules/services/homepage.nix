@@ -53,6 +53,10 @@ in {
             style = "row";
             columns = 4;
           };
+          Development = {
+            style = "row";
+            columns = 4;
+          };
           "All-day life" = {
             style = "row";
             columns = 4;
@@ -110,6 +114,18 @@ in {
                 };
               }
             ]);
+        }
+        {
+          Development = lib.lists.optionals config.serviceSettings.forgejo.enable [
+            {
+              Forgejo = {
+                description = "Local git forge";
+                icon = "forgejo.svg";
+                href = "https://${config.serviceSettings.forgejo.url}/";
+                ping = config.serviceSettings.forgejo.url;
+              };
+            }
+          ];
         }
         {
           "All-day life" = [
