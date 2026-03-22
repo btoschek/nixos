@@ -15,6 +15,13 @@ in {
         default = "jellyfin.${config.systemSettings.domain}";
         description = "URL the service should be accessible at (requires traefik)";
       };
+
+      # NOTE: Changing this currently has no effect
+      port = lib.mkOption {
+        type = lib.types.int;
+        default = 8096;
+        description = "Port the service is reachable at (if used with reverse proxy: internal only)";
+      };
     };
   };
 
@@ -45,8 +52,8 @@ in {
     services.traefik.dynamicConfigOptions = lib.mkIf config.serviceSettings.traefik.enable (
       traefik-utils.generateBasicTraefikEntry {
         service = "jellyfin";
-        url = cfg.url;
-        internal = "http://localhost:8096";
+        inherit (cfg) url;
+        internal = "http://127.0.0.1:${builtins.toString cfg.port}";
       }
     );
 

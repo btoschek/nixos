@@ -29,6 +29,12 @@ in {
         default = config.systemSettings.domain;
         description = "URL the service should be accessible at (requires traefik)";
       };
+
+      port = lib.mkOption {
+        type = lib.types.int;
+        default = 8082;
+        description = "Port the service is reachable at (if used with reverse proxy: internal only)";
+      };
     };
   };
 
@@ -36,6 +42,8 @@ in {
     services.homepage-dashboard = {
       enable = true;
       inherit package;
+
+      listenPort = cfg.port;
 
       # TODO: Figure this thing out
       allowedHosts = "*";
@@ -100,17 +108,17 @@ in {
                   description = "Image gallery";
                   icon = "immich.svg";
                   href = "https://${config.serviceSettings.immich.url}/";
-                  ping = config.serviceSettings.immich.url;
+                  siteMonitor = "http://127.0.0.1:${config.serviceSettings.immich.port}";
                 };
               }
             ])
             ++ (lib.lists.optionals config.serviceSettings.jellyfin.enable [
               {
                 Jellyfin = {
-                  description = "Watch local movies and series";
+                  description = "Movies & Series";
                   icon = "jellyfin.svg";
                   href = "https://${config.serviceSettings.jellyfin.url}/";
-                  ping = config.serviceSettings.jellyfin.url;
+                  siteMonitor = "http://127.0.0.1:${config.serviceSettings.jellyfin.port}";
                 };
               }
             ]);
@@ -119,10 +127,10 @@ in {
           Development = lib.lists.optionals config.serviceSettings.forgejo.enable [
             {
               Forgejo = {
-                description = "Local git forge";
+                description = "Git forge";
                 icon = "forgejo.svg";
                 href = "https://${config.serviceSettings.forgejo.url}/";
-                ping = config.serviceSettings.forgejo.url;
+                siteMonitor = "http://127.0.0.1:${config.serviceSettings.forgejo.port}";
               };
             }
           ];
@@ -149,7 +157,7 @@ in {
 
       bookmarks = [
         {
-          Development = [
+          Tech = [
             {
               GitHub = [
                 {
@@ -191,8 +199,8 @@ in {
     services.traefik.dynamicConfigOptions = lib.mkIf config.serviceSettings.traefik.enable (
       traefik-utils.generateBasicTraefikEntry {
         service = "homepage";
-        url = cfg.url;
-        internal = "http://localhost:${builtins.toString config.services.homepage-dashboard.listenPort}";
+        inherit (cfg) url;
+        internal = "http://127.0.0.1:${builtins.toString cfg.port}";
       }
     );
   };

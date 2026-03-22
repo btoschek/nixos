@@ -15,6 +15,12 @@ in {
         default = "immich.${config.systemSettings.domain}";
         description = "URL the service should be accessible at (requires traefik)";
       };
+
+      port = lib.mkOption {
+        type = lib.types.int;
+        default = 2283;
+        description = "Port the service is reachable at (if used with reverse proxy: internal only)";
+      };
     };
   };
 
@@ -27,6 +33,7 @@ in {
 
     services.immich = {
       enable = true;
+      inherit (cfg) port;
     };
 
     # Retain program data across reboots
@@ -45,8 +52,8 @@ in {
     services.traefik.dynamicConfigOptions = lib.mkIf config.serviceSettings.traefik.enable (
       traefik-utils.generateBasicTraefikEntry {
         service = "immich";
-        url = cfg.url;
-        internal = "http://${config.services.immich.host}:${builtins.toString config.services.immich.port}";
+        inherit (cfg) url;
+        internal = "http://127.0.0.1:${builtins.toString cfg.port}";
       }
     );
   };

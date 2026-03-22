@@ -15,6 +15,12 @@ in {
         default = "git.${config.systemSettings.domain}";
         description = "URL the service should be accessible at (requires traefik)";
       };
+
+      port = lib.mkOption {
+        type = lib.types.int;
+        default = 3000;
+        description = "Port the service is reachable at (if used with reverse proxy: internal only)";
+      };
     };
   };
 
@@ -31,6 +37,7 @@ in {
         server = {
           #SSH_PORT = #TODO;
           DOMAIN = cfg.url;
+          HTTP_PORT = cfg.port;
           ROOT_URL = "https://${cfg.url}";
         };
 
@@ -65,8 +72,8 @@ in {
     services.traefik.dynamicConfigOptions = lib.mkIf config.serviceSettings.traefik.enable (
       traefik-utils.generateBasicTraefikEntry {
         service = "forgejo";
-        url = cfg.url;
-        internal = "http://localhost:${builtins.toString config.services.forgejo.settings.server.HTTP_PORT}";
+        inherit (cfg) url;
+        internal = "http://127.0.0.1:${builtins.toString cfg.port}";
       }
     );
   };
