@@ -108,7 +108,7 @@ in {
                   description = "Image gallery";
                   icon = "immich.svg";
                   href = "https://${config.serviceSettings.immich.url}/";
-                  siteMonitor = "http://127.0.0.1:${config.serviceSettings.immich.port}";
+                  siteMonitor = "http://127.0.0.1:${builtins.toString config.serviceSettings.immich.port}";
                 };
               }
             ])
@@ -118,7 +118,7 @@ in {
                   description = "Movies & Series";
                   icon = "jellyfin.svg";
                   href = "https://${config.serviceSettings.jellyfin.url}/";
-                  siteMonitor = "http://127.0.0.1:${config.serviceSettings.jellyfin.port}";
+                  siteMonitor = "http://127.0.0.1:${builtins.toString config.serviceSettings.jellyfin.port}";
                 };
               }
             ]);
@@ -130,7 +130,7 @@ in {
                 description = "Git forge";
                 icon = "forgejo.svg";
                 href = "https://${config.serviceSettings.forgejo.url}/";
-                siteMonitor = "http://127.0.0.1:${config.serviceSettings.forgejo.port}";
+                siteMonitor = "http://127.0.0.1:${builtins.toString config.serviceSettings.forgejo.port}";
               };
             }
           ];
