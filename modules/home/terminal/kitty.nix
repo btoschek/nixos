@@ -1,9 +1,11 @@
-{ config, lib, pkgs, ... }:
-
-let
-  cfg = config.userSettings.kitty;
-in
 {
+  config,
+  lib,
+  pkgs,
+  ...
+}: let
+  cfg = config.userSettings.kitty;
+in {
   options = {
     userSettings.kitty = {
       enable = lib.mkEnableOption "Enable kitty";
@@ -99,6 +101,9 @@ in
         cursor_trail_decay = "0.01 0.05";
 
         confirm_os_window_close = 0;
+
+        # Disable checking a remote server for updates daily
+        update_check_interval = 0;
       };
     };
   };
