@@ -1,9 +1,11 @@
-{ config, lib, pkgs, ... }:
-
-let
-  cfg = config.userSettings.gaming;
-in
 {
+  config,
+  lib,
+  pkgs,
+  ...
+}: let
+  cfg = config.userSettings.gaming;
+in {
   options = {
     userSettings.gaming = {
       enable = lib.mkEnableOption "Enable programs related to gaming";
@@ -13,7 +15,6 @@ in
   config = lib.mkIf cfg.enable {
     home.packages = with pkgs; [
       gamescope
-      steam
       prismlauncher
       heroic
     ];

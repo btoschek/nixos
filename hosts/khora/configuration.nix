@@ -68,6 +68,15 @@
     xwayland.enable = true;
   };
 
+  programs.steam = {
+    enable = true;
+    package = pkgs.steam.override {
+      extraEnv = {
+        MANGOHUD = true;
+      };
+    };
+  };
+
   environment.sessionVariables = {
     # Hint electron apps to using wayland instead of X11
     NIXOS_OZONE_WL = "1";
