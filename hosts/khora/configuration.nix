@@ -75,6 +75,9 @@
         MANGOHUD = true;
       };
     };
+    extraCompatPackages = with pkgs; [
+      proton-ge-bin
+    ];
   };
 
   environment.sessionVariables = {
@@ -179,8 +182,8 @@
     rofi
 
     thunderbird
-    sops
     makemkv
+    handbrake
 
     simple-scan
 
@@ -191,6 +194,10 @@
     orca-slicer
 
     nfs-utils
+
+    helvum
+
+    quickshell
   ];
 
   programs.zsh.enable = true;

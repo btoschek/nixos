@@ -37,6 +37,11 @@
   home.packages = [
     # Nix code formatter
     pkgs.alejandra
+
+    # JQ for YAML
+    pkgs.yq-go
+
+    pkgs.p7zip
   ];
 
   programs.eza = {
