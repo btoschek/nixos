@@ -4,6 +4,10 @@
   inputs = {
     nixpkgs.url = "github:nixos/nixpkgs/nixos-unstable";
 
+    flake-parts.url = "github:hercules-ci/flake-parts";
+
+    import-tree.url = "github:vic/import-tree";
+
     home-manager = {
       url = "github:nix-community/home-manager";
       inputs.nixpkgs.follows = "nixpkgs";
@@ -49,31 +53,38 @@
     };
   };
 
-  outputs = {
-    self,
-    nixpkgs,
-    sops-nix,
-    impermanence,
-    ...
-  } @ inputs: {
-    nixosConfigurations = {
-      # Main PC
-      khora = nixpkgs.lib.nixosSystem {
-        specialArgs = {inherit inputs;};
-        modules = [
-          ./hosts/khora/configuration.nix
-        ];
-      };
+  outputs = inputs:
+    inputs.flake-parts.lib.mkFlake {
+      inherit inputs;
+      # imports = [inputs.flake-parts.flakeModules.modules];
+    }
+    (inputs.import-tree ./modules-new);
 
-      # Homeserver
-      gemini = nixpkgs.lib.nixosSystem {
-        specialArgs = {inherit inputs;};
-        modules = [
-          ./hosts/gemini/configuration.nix
-          impermanence.nixosModules.impermanence
-          sops-nix.nixosModules.sops
-        ];
-      };
-    };
-  };
+  #   outputs = {
+  #     self,
+  #     nixpkgs,
+  #     sops-nix,
+  #     impermanence,
+  #     ...
+  #   } @ inputs: {
+  #     nixosConfigurations = {
+  #       # Main PC
+  #       khora = nixpkgs.lib.nixosSystem {
+  #         specialArgs = {inherit inputs;};
+  #         modules = [
+  #           ./hosts/khora/configuration.nix
+  #         ];
+  #       };
+  #
+  #       # Homeserver
+  #       gemini = nixpkgs.lib.nixosSystem {
+  #         specialArgs = {inherit inputs;};
+  #         modules = [
+  #           ./hosts/gemini/configuration.nix
+  #           impermanence.nixosModules.impermanence
+  #           sops-nix.nixosModules.sops
+  #         ];
+  #       };
+  #     };
+  #   };
 }
