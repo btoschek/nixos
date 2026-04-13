@@ -1,17 +1,8 @@
-{
-  self,
-  inputs,
-  ...
-}: {
-  flake.modules.nixos.khora = {
-    inputs,
-    pkgs,
-    ...
-  }: {
-    nixpkgs.config.allowUnfree = true;
-
-    imports = with self.modules; [
-      #nixos.gaming
+{inputs, ...}: {
+  flake.nixosModules.khora = {pkgs, ...}: {
+    imports = with inputs.self.nixosModules; [
+      inputs.home-manager.nixosModules.default
+      btoschek
     ];
 
     # Use grub instead of systemd-boot
@@ -122,22 +113,8 @@
       };
     };
 
-    # Define a user account. Don't forget to set a password with ‘passwd’.
-    users.users.btoschek = {
-      isNormalUser = true;
-      extraGroups = ["wheel" "scanner" "lp"]; # Enable ‘sudo’ for the user. + scanner privileges
-      packages = with pkgs; [
-        tree
-        gnupg
-      ];
-      shell = pkgs.zsh;
-    };
-
     # home-manager = {
     #   extraSpecialArgs = {inherit inputs;};
-    #   # users = {
-    #   #   "btoschek" = import ./home.nix;
-    #   # };
     #   # Fix use of unfree packages
     #   useGlobalPkgs = true;
     #   useUserPackages = true;
@@ -181,6 +158,8 @@
       helvum
 
       quickshell
+
+      gnupg
     ];
 
     programs.zsh.enable = true;

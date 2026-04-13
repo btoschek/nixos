@@ -1,9 +1,5 @@
 {
-  self,
-  inputs,
-  ...
-}: {
-  flake.modules.nixos.khora = {
+  flake.nixosModules.khora = {
     config,
     lib,
     pkgs,

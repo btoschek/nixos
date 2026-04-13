@@ -12,7 +12,7 @@
     mkNixos = system: name: {
       ${name} = inputs.nixpkgs.lib.nixosSystem {
         modules = [
-          inputs.self.modules.nixos.${name}
+          inputs.self.nixosModules.${name}
           {
             networking.hostName = name;
             nixpkgs.hostPlatform = lib.mkDefault system;
@@ -25,7 +25,7 @@
       ${name} = inputs.home-manager.lib.homeManagerConfiguration {
         pkgs = inputs.nixpkgs.legacyPackages.${system};
         modules = [
-          inputs.self.modules.homeManager.${name}
+          inputs.self.homeModules.${name}
           {nixpkgs.config.allowUnfree = true;}
         ];
       };

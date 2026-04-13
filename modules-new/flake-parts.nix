@@ -1,10 +1,7 @@
 {inputs, ...}: {
   imports = [
-    # Make option "flake.modules" available
-    inputs.flake-parts.flakeModules.modules
-
     # Add management for home-manager options
-    # inputs.home-manager.flakeModules.home-manager
+    inputs.home-manager.flakeModules.home-manager
   ];
 
   systems = [
