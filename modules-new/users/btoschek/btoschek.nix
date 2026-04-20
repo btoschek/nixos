@@ -21,7 +21,8 @@ in {
 
     homeModules.${username} = {
       imports = with self.homeModules; [
-        #gui
+        gui
+        gaming
       ];
 
       # TODO: Check if correct here

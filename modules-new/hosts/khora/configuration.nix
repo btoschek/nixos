@@ -1,8 +1,11 @@
 {inputs, ...}: {
   flake.nixosModules.khora = {pkgs, ...}: {
     imports = with inputs.self.nixosModules; [
+      bluetooth
+
       inputs.home-manager.nixosModules.default
       btoschek
+      gaming
     ];
 
     # Use grub instead of systemd-boot
