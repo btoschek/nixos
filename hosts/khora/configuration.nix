@@ -195,7 +195,7 @@
 
     nfs-utils
 
-    helvum
+    crosspipe
 
     quickshell
   ];
