@@ -22,7 +22,10 @@ in {
     homeModules.${username} = {
       imports = with self.homeModules; [
         gui
+        base
+        development
         gaming
+        music
       ];
 
       # TODO: Check if correct here
