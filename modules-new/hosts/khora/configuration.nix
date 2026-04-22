@@ -1,4 +1,8 @@
-{inputs, ...}: {
+{
+  inputs,
+  lib,
+  ...
+}: {
   flake.nixosModules.khora = {pkgs, ...}: {
     imports = with inputs.self.nixosModules; [
       bluetooth
@@ -6,6 +10,7 @@
       inputs.home-manager.nixosModules.default
       btoschek
       gaming
+      desktop
     ];
 
     # Use grub instead of systemd-boot
@@ -83,6 +88,9 @@
       sane.enable = true;
     };
 
+    # Allow PipeWire to get realtime priority
+    security.rtkit.enable = true;
+
     # Enable sound
     services.pipewire = {
       enable = true;
@@ -123,6 +131,18 @@
     #   useUserPackages = true;
     # };
 
+    nixpkgs.config.allowUnfreePredicate = pkg:
+      builtins.elem (lib.getName pkg) [
+        "discord"
+        "obsidian"
+        "makemkv"
+
+        # TODO: Currently overwrites modules, fix this
+        "steam"
+        "steam-unwrapped"
+        "spotify"
+      ];
+
     # List packages installed in system profile. To search, run:
     # $ nix search wget
     environment.systemPackages = with pkgs; [
@@ -158,7 +178,7 @@
 
       nfs-utils
 
-      helvum
+      pw-viz
 
       quickshell
 

@@ -1,9 +1,15 @@
-{self, ...}: {
-  flake.nixpkgs.config.allowUnfreePackages = [
-    "steam"
-  ];
-
+{
+  self,
+  lib,
+  ...
+}: {
   flake.nixosModules.gaming = {pkgs, ...}: {
+    nixpkgs.config.allowUnfreePredicate = pkg:
+      builtins.elem (lib.getName pkg) [
+        "steam"
+        "steam-unwrapped"
+      ];
+
     home-manager.sharedModules = [
       self.homeModules.gaming
     ];

@@ -19,7 +19,7 @@ in {
       };
     };
 
-    homeModules.${username} = {
+    homeModules.${username} = {pkgs, ...}: {
       imports = with self.homeModules; [
         gui
         base
@@ -27,6 +27,22 @@ in {
         gaming
         music
       ];
+
+      home.packages = with pkgs; [
+        yq-go
+        p7zip
+      ];
+
+      programs.yt-dlp.enable = true;
+      programs.floorp.enable = true;
+
+      services.gpg-agent = {
+        enable = true;
+        pinentry.package = pkgs.pinentry-curses;
+      };
+
+      # Let Home Manager install and manage itself.
+      programs.home-manager.enable = true;
 
       # TODO: Check if correct here
       home.stateVersion = "25.05";
