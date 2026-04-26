@@ -15,7 +15,7 @@
         grim
         slurp
 
-        swww
+        awww
         eww
 
         # TODO: Check, why both
@@ -44,7 +44,7 @@
           # Background processes
           exec-once = [
             "dunst" # Notification daemon
-            "swww-daemon && eww daemon" # Wallpaper daemon & Widgets
+            "awww-daemon && eww daemon" # Wallpaper daemon & Widgets
             "eww open wallpaper_time" # Open wallpaper time overlay
             "copyq --start-server" # Clipboard manager
           ];
