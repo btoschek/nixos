@@ -8,6 +8,9 @@
       inputs.stylix.homeModules.stylix
     ];
 
+    # NOTE: Adopted new behavior, previously: `gtk.gtk4.theme = config.gtk.theme;`
+    gtk.gtk4.theme = null;
+
     stylix = {
       enable = true;
 
