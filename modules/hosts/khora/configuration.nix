@@ -5,6 +5,7 @@
 
       den.aspects.desktop
       den.aspects.bluetooth
+      den.aspects._3d-printing
 
       (den.provides.unfree [
         "discord"
@@ -166,8 +167,6 @@
         gcc
         libreoffice-qt
         pgadmin4-desktopmode
-
-        orca-slicer
 
         nfs-utils
 
