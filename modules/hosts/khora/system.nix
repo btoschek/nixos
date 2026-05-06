@@ -1,4 +1,9 @@
 {den, ...}: {
+  den.hosts.x86_64-linux.khora = {
+    description = "Main PC (Tower)";
+    users.btoschek.classes = ["homeManager"];
+  };
+
   den.aspects.khora = {
     includes = [
       den.provides.hostname
@@ -15,6 +20,10 @@
     ];
 
     nixos = {pkgs, ...}: {
+      imports = [
+        ./_hardware.nix
+      ];
+
       # Use grub instead of systemd-boot
       boot.loader = {
         efi.canTouchEfiVariables = true;
@@ -117,25 +126,6 @@
           ];
         };
       };
-
-      #      # Define a user account. Don't forget to set a password with ‘passwd’.
-      #      users.users.btoschek = {
-      #        extraGroups = ["scanner" "lp"]; # Enable ‘sudo’ for the user. + scanner privileges
-      #        packages = with pkgs; [
-      #          tree
-      #          gnupg
-      #        ];
-      #      };
-      #
-      #      home-manager = {
-      #        extraSpecialArgs = {inherit inputs;};
-      #        users = {
-      #          "btoschek" = import ./home.nix;
-      #        };
-      #        # Fix use of unfree packages
-      #        useGlobalPkgs = true;
-      #        useUserPackages = true;
-      #      };
 
       # List packages installed in system profile. To search, run:
       # $ nix search wget

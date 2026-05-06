@@ -3,13 +3,15 @@
   den,
   ...
 }: {
-  imports = [inputs.den.flakeModule];
+  # Support for angle bracket syntax
+  _module.args.__findFile = den.lib.__findFile;
 
-  den.default.homeManager.home.stateVersion = "25.05";
+  imports = [
+    inputs.den.flakeModule
+  ];
 
-  # Main PC (Tower)
-  den.hosts.x86_64-linux.khora = {
-    users.btoschek.classes = ["homeManager"];
+  den.default = {
+    homeManager.home.stateVersion = "25.05";
   };
 
   # Homelab
