@@ -5,7 +5,7 @@
     nixpkgs.url = "github:nixos/nixpkgs/nixos-unstable";
 
     # Dendritic config framework inputs
-    den.url = "github:vic/den";
+    den.url = "github:denful/den"; # TODO: Add /latest here
     import-tree.url = "github:vic/import-tree";
 
     home-manager = {
