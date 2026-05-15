@@ -6,9 +6,30 @@
   dataDir = "/var/lib/traefik";
   domain = "homelab.btoschek.org";
 in {
+  # Declare routes with simplified generic options
   den.quirks.routes = {
     description = "Route declarations used by reverse-proxy";
   };
+
+  # Extend routes and auto-generate missing information
+  den.policies.extend-routes = {host, ...}: let
+    inherit (den.lib.policy) pipe;
+  in [
+    (pipe.from "routes" [
+      (pipe.transform (r: let
+        fqdn = "${r.subdomain}.${domain}";
+      in
+        #assert _ -> r.port != null;
+        #assert _ -> r.subdomain != null;
+        r
+        // lib.optionalAttrs (!(r ? "fqdn")) {inherit fqdn;}
+        // lib.optionalAttrs (!(r ? "url")) {url = "https://${fqdn}";}
+        // lib.optionalAttrs (!(r ? "internal")) {internal = "127.0.0.1:${builtins.toString r.port}";}))
+    ])
+  ];
+
+  # Automatically include policy for all hosts
+  den.default.includes = [den.policies.extend-routes];
 
   den.aspects.services.provides.traefik = {
     nixos = {routes, ...}: {
@@ -85,43 +106,36 @@ in {
           };
         };
 
-        # Use SSL encryption for dashboard endpoint
         dynamicConfigOptions = {
-          http =
-            #{
-            #  routers."traefik-dashboard" = {
-            #    entryPoints = ["websecure"];
-            #    rule = "Host(`traefik.${domain}`)";
-            #    service = "api@internal";
-            #  };
-            #}
-            #//
-            builtins.foldl' (acc: entry: let
-              service = builtins.elemAt (builtins.attrNames entry) 0;
-              conf = entry.${service};
-            in
-              acc
+          http = {
+            routers =
+              builtins.listToAttrs (builtins.map (r: {
+                  name = "${r.service}-router";
+                  value = {
+                    entryPoints = ["websecure"];
+                    rule = "Host(`${r.fqdn}`)";
+                    service = "${r.service}@local";
+                  };
+                })
+                routes)
               // {
-                routers =
-                  (acc.routers or {})
-                  // {
-                    "${service}-router" = {
-                      entryPoints = ["websecure"];
-                      rule = "Host(`${conf.subdomain}.${domain}`)";
-                      inherit service;
-                    };
-                  };
+                "traefik-dashboard" = {
+                  entryPoints = ["websecure"];
+                  rule = "Host(`traefik.${domain}`)";
+                  service = "api@internal";
+                };
+              };
 
-                services =
-                  (acc.services or {})
-                  // {
-                    "${service}".loadBalancer.servers = [
-                      {url = "127.0.0.1:${builtins.toString conf.port}";}
-                    ];
-                  };
+            services = builtins.listToAttrs (builtins.map (r: {
+                name = "${r.service}@local";
+                value = {
+                  loadBalancer.servers = [
+                    {url = r.internal;}
+                  ];
+                };
               })
-            {}
-            routes;
+              routes);
+          };
         };
       };
     };

@@ -16,5 +16,4 @@
   den.default = {
     homeManager.home.stateVersion = "25.05";
   };
-
 }

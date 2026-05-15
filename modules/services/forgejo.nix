@@ -30,7 +30,8 @@
       config.services.forgejo.stateDir
     ];
 
-    routes."forgejo" = {
+    routes = {
+      service = "forgejo";
       subdomain = "git";
       port = 3000;
     };
