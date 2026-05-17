@@ -21,6 +21,8 @@
 
       den.aspects.services._.traefik
       den.aspects.services._.forgejo
+      den.aspects.services._.immich
+      den.aspects.services._.jellyfin
     ];
 
     nixos = {
