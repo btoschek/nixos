@@ -43,10 +43,7 @@
 
       programs.gallery-dl.enable = true;
 
-      programs.eww = {
-        enable = true;
-        enableZshIntegration = true;
-      };
+      programs.eww.enable = true;
 
       programs.yt-dlp.enable = true;
 

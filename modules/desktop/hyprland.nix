@@ -119,7 +119,6 @@
           };
 
           dwindle = {
-            pseudotile = true; # Pseudotiled windows retain size when tiled
             force_split = 2; # Always split to the right / below
             preserve_split = true; # Keep split regardless of what happens to the container
           };
@@ -187,7 +186,7 @@
               "$mod, P    , pseudo," # Change tiling to use pseudo mode
               "$mod, F    , fullscreen, 1" # Fullscreen window (with border)
               "$mod, T    , fullscreen, 0" # Fullscreen window (no border)
-              "$mod, B    , togglesplit," # Rotate split orientation
+              "$mod, B    , layoutmsg, togglesplit" # Rotate split orientation
 
               # Screenshot
               "$mod, s, exec, $HOME/.config/hypr/scripts/screenshot.sh area"
