@@ -37,6 +37,11 @@ in {
       config,
       ...
     }: {
+      networking.firewall.allowedTCPPorts = [
+        80 # HTTP
+        443 # HTTPS
+      ];
+
       sops.secrets = {
         "cloudflare/api-token" = {
           mode = "0440";

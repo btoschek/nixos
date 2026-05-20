@@ -74,13 +74,7 @@
           builtins.hashString "sha256" config.networking.hostName
         );
         networkmanager.enable = true;
-        firewall = {
-          enable = true;
-          allowedTCPPorts = [
-            80 # HTTP
-            443 # HTTPS
-          ];
-        };
+        firewall.enable = true;
       };
 
       # Localization
