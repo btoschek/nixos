@@ -24,7 +24,7 @@ in {
         r
         // lib.optionalAttrs (!(r ? "fqdn")) {inherit fqdn;}
         // lib.optionalAttrs (!(r ? "url")) {url = "https://${fqdn}";}
-        // lib.optionalAttrs (!(r ? "internal")) {internal = "127.0.0.1:${builtins.toString r.port}";}))
+        // lib.optionalAttrs (!(r ? "internal")) {internal = "http://127.0.0.1:${builtins.toString r.port}";}))
     ])
   ];
 
