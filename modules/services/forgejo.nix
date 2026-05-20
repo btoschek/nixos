@@ -1,5 +1,7 @@
 {den, ...}: {
-  den.aspects.services.provides.forgejo = {
+  den.aspects.services.provides.forgejo = let
+    port = 3000;
+  in {
     nixos = {config, ...}: {
       services.forgejo = {
         enable = true;
@@ -9,7 +11,7 @@
           server = {
             #SSH_PORT = #TODO;
             #DOMAIN = cfg.url;
-            #HTTP_PORT = cfg.port;
+            HTTP_PORT = port;
             #ROOT_URL = "https://${cfg.url}";
           };
 
@@ -33,7 +35,7 @@
     routes = {
       service = "forgejo";
       subdomain = "git";
-      port = 3000;
+      inherit port;
     };
   };
 }

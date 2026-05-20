@@ -2,9 +2,11 @@
   den.aspects.services.provides.immich = let
     port = 2283;
   in {
-    services.immich = {
-      enable = true;
-      inherit port;
+    nixos = {
+      services.immich = {
+        enable = true;
+        inherit port;
+      };
     };
 
     remote-filesystems = {

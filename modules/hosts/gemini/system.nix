@@ -38,7 +38,7 @@
       ];
 
       sops = {
-        #defaultSopsFile = builtins.toPath "${inputs.secrets}/secrets/secrets.yaml";
+        defaultSopsFile = builtins.toPath "${inputs.secrets}/secrets/secrets.yaml";
         defaultSopsFormat = "yaml";
         age.keyFile = "/persist/keys.txt";
       };

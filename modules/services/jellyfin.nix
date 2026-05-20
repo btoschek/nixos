@@ -1,7 +1,9 @@
 {den, ...}: {
   den.aspects.services.provides.jellyfin = {
-    services.jellyfin = {
-      enable = true;
+    nixos = {
+      services.jellyfin = {
+        enable = true;
+      };
     };
 
     remote-filesystems = {

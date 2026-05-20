@@ -32,14 +32,17 @@ in {
   den.default.includes = [den.policies.extend-routes];
 
   den.aspects.services.provides.traefik = {
-    nixos = {routes, ...}: {
-      # TODO: Add sops option
-      #secrets = {
-      #  "cloudflare/api-token" = {
-      #    mode = "0440";
-      #    #group = config.services.traefik.group;
-      #  };
-      #};
+    nixos = {
+      routes,
+      config,
+      ...
+    }: {
+      sops.secrets = {
+        "cloudflare/api-token" = {
+          mode = "0440";
+          group = config.services.traefik.group;
+        };
+      };
 
       services.traefik = {
         enable = true;
@@ -49,9 +52,9 @@ in {
         # NOTE: Apparently, traefik only reads the env files listed here, so we have to
         #       create an additional file pointing to our actual token file (created by sops-nix)
         environmentFiles = [
-          #(builtins.toFile "traefik_env.env" ''
-          #  CF_DNS_API_TOKEN_FILE="${config.sops.secrets."cloudflare/api-token".path}"
-          #'')
+          (builtins.toFile "traefik.env" ''
+            CF_DNS_API_TOKEN_FILE="${config.sops.secrets."cloudflare/api-token".path}"
+          '')
         ];
 
         staticConfigOptions = {
