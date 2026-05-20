@@ -34,9 +34,7 @@
         };
       };
 
-      # Pick only one of the below networking options.
-      # networking.wireless.enable = true;  # Enables wireless support via wpa_supplicant.
-      networking.networkmanager.enable = true; # Easiest to use and most distros use this by default.
+      networking.networkmanager.enable = true;
 
       # Automatic updating
       system.autoUpgrade = {
@@ -164,7 +162,9 @@
       ];
 
       # Open ports in the firewall.
-      networking.firewall.allowedTCPPorts = [8000]; # Occasional python http.server
+      networking.firewall.allowedTCPPorts = [
+        8000 # Occasional python http.server
+      ];
 
       # This option defines the first version of NixOS you have installed on this particular machine,
       # and is used to maintain compatibility with application data (e.g. databases) created on older NixOS versions.

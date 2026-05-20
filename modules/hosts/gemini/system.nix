@@ -5,7 +5,7 @@
 }: {
   den.hosts.x86_64-linux.gemini = {
     description = "Homelab";
-    users.btoschek = {};
+    #users.btoschek = {};     # TODO: Check
   };
 
   den.aspects.gemini = {
