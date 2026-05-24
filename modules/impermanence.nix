@@ -1,8 +1,19 @@
 {
   den,
+  lib,
   inputs,
   ...
 }: {
+  den.schema.host = {
+    options = {
+      impermanence.persistence-dir = lib.mkOption {
+        type = lib.types.str;
+        default = "/persist";
+        description = "Directory all persistent data will be saved to";
+      };
+    };
+  };
+
   # Declare quirk (usable everywhere)
   den.quirks.persist = {
     description = "Declarations of files to keep when using impermanence";
@@ -10,15 +21,16 @@
 
   den.aspects.impermanence = {
     nixos = {
-      persist,
+      host,
       lib,
+      persist,
       ...
     }: {
       imports = [
         inputs.impermanence.nixosModules.impermanence
       ];
 
-      environment.persistence."/persist" = {
+      environment.persistence."${host.impermanence.persistence-dir}" = {
         enable = true;
         hideMounts = true;
         allowTrash = false;

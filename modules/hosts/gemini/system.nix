@@ -27,6 +27,7 @@
     ];
 
     nixos = {
+      host,
       config,
       lib,
       pkgs,
@@ -41,7 +42,7 @@
       sops = {
         defaultSopsFile = builtins.toPath "${inputs.secrets}/secrets/secrets.yaml";
         defaultSopsFormat = "yaml";
-        age.keyFile = "/persist/keys.txt";
+        age.keyFile = "${host.impermanence.persistence-dir}/keys.txt";
       };
 
       nixpkgs.hostPlatform = lib.mkDefault "x86_64-linux";
