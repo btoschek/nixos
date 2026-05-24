@@ -64,7 +64,7 @@
         open_url_modifiers = "ctrl+shift";
         open_url_with = "default";
 
-        term = "xterm-kitty"; # TODO: Change to "xterm"
+        term = "xterm";
 
         window_border_width = 0;
         window_margin_width = 15;

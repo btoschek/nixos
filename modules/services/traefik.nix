@@ -77,7 +77,7 @@ in {
               address = ":443";
               asDefault = true;
               http.tls = {
-                certResolver = "letsencrypt";
+                certResolver = "production";
                 domains = [
                   {
                     main = domain;
@@ -94,16 +94,32 @@ in {
             format = "json";
           };
 
-          certificatesResolvers.letsencrypt.acme = {
-            storage = "${dataDir}/acme.json";
-            # NOTE: Staging url, remove to request actual certs
-            # caServer = "https://acme-staging-v02.api.letsencrypt.org/directory";
-            dnsChallenge = {
-              provider = "cloudflare";
-              resolvers = [
-                "1.1.1.1:53"
-                "8.8.8.8:53"
-              ];
+          certificatesResolvers = {
+            production = {
+              acme = {
+                storage = "${dataDir}/acme.json";
+                dnsChallenge = {
+                  provider = "cloudflare";
+                  resolvers = [
+                    "1.1.1.1:53"
+                    "8.8.8.8:53"
+                  ];
+                };
+              };
+            };
+
+            staging = {
+              acme = {
+                storage = "${dataDir}/acme-staging.json";
+                caServer = "https://acme-staging-v02.api.letsencrypt.org/directory";
+                dnsChallenge = {
+                  provider = "cloudflare";
+                  resolvers = [
+                    "1.1.1.1:53"
+                    "8.8.8.8:53"
+                  ];
+                };
+              };
             };
           };
 
