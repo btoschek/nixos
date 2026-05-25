@@ -1,8 +1,11 @@
 {den, ...}: {
-  den.aspects.services.provides.jellyfin = {
+  den.aspects.services.provides.jellyfin = let
+    dataDir = "/var/lib/jellyfin";
+  in {
     nixos = {
       services.jellyfin = {
         enable = true;
+        inherit dataDir;
       };
     };
 
@@ -12,8 +15,8 @@
       type = "nfs";
     };
 
-    persist.directories = {config, ...}: [
-      config.services.jellyfin.dataDir
+    persist.directories = [
+      dataDir
     ];
 
     routes = {

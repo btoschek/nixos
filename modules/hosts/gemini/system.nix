@@ -10,10 +10,6 @@
   };
 
   den.aspects.gemini = {
-    lib,
-    config,
-    ...
-  }: {
     includes = [
       den.provides.hostname
 
@@ -49,7 +45,10 @@
       nixpkgs.hostPlatform = lib.mkDefault "x86_64-linux";
 
       nix = {
-        settings.experimental-features = ["nix-command" "flakes"];
+        settings.experimental-features = [
+          "nix-command"
+          "flakes"
+        ];
       };
 
       # ============================================================

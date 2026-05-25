@@ -35,12 +35,13 @@
         hideMounts = true;
         allowTrash = false;
 
-        directories = [
-          "/var/log"
-          # See: https://github.com/nix-community/impermanence/issues/178
-          "/var/lib/nixos"
-        ];
-        #++ lib.concatMap (p: p.directories or []) persist;
+        directories =
+          [
+            "/var/log"
+            # See: https://github.com/nix-community/impermanence/issues/178
+            "/var/lib/nixos"
+          ]
+          ++ lib.concatMap (p: p.directories or []) persist;
 
         files = [
           "/etc/machine-id"

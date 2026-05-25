@@ -1,12 +1,15 @@
 {den, ...}: {
   den.aspects.services.provides.forgejo = let
     port = 3000;
+    stateDir = "/var/lib/forgejo";
   in {
     nixos = {config, ...}: {
       services.forgejo = {
         enable = true;
+        inherit stateDir;
+
         settings = {
-          session.COOKIE_SECURE = true; # config.serviceSettings.traefik.enable;
+          session.COOKIE_SECURE = config.services.traefik.enable;
 
           server = {
             #SSH_PORT = #TODO;
@@ -28,8 +31,8 @@
       };
     };
 
-    persist.directories = {config, ...}: [
-      config.services.forgejo.stateDir
+    persist.directories = [
+      stateDir
     ];
 
     routes = {
