@@ -17,14 +17,13 @@
       type = "nfs";
     };
 
-    persist.directories = [
+    persist-directories = {config, ...}: [
       mediaLocation
 
       # NOTE: This directory is needed as immich uses Postgres under the hood
       # WARN: As this directory is versioned ("/var/lib/postgresql/<version>"),
       #       always do a backup before bumping versions to avoid data loss
-      #config.services.postgresql.dataDir
-      "/var/lib/postgresql/15"
+      config.services.postgresql.dataDir
     ];
 
     routes = {

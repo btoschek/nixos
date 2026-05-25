@@ -173,7 +173,7 @@ in {
       };
     };
 
-    persist.directories = [
+    persist-directories = [
       dataDir
     ];
   };

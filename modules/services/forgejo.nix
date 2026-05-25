@@ -31,7 +31,7 @@
       };
     };
 
-    persist.directories = [
+    persist-directories = [
       stateDir
     ];
 

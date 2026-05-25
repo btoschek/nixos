@@ -14,16 +14,15 @@
     };
   };
 
-  # Declare quirk (usable everywhere)
-  den.quirks.persist = {
-    description = "Declarations of files to keep when using impermanence";
+  den.quirks.persist-directories = {
+    description = "Declarations of directories to keep when using impermanence";
   };
 
   den.aspects.impermanence = {
     nixos = {
       host,
       lib,
-      persist,
+      persist-directories,
       ...
     }: {
       imports = [
@@ -41,7 +40,7 @@
             # See: https://github.com/nix-community/impermanence/issues/178
             "/var/lib/nixos"
           ]
-          ++ lib.concatMap (p: p.directories or []) persist;
+          ++ persist-directories;
 
         files = [
           "/etc/machine-id"

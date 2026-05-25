@@ -15,7 +15,7 @@
       type = "nfs";
     };
 
-    persist.directories = [
+    persist-directories = [
       dataDir
     ];
 
