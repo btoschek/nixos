@@ -187,9 +187,11 @@
       };
     };
 
-    routes = {
+    routes = {host, ...}: {
       service = "homepage";
-      subdomain = ""; # TODO: Check
+      subdomain = "";
+      # NOTE: Explicitly declare access to service via root domain (as "landing page")
+      fqdn = host.domain;
       inherit port;
     };
   };

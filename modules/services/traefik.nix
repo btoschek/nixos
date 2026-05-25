@@ -4,8 +4,16 @@
   ...
 }: let
   dataDir = "/var/lib/traefik";
-  domain = "homelab.btoschek.org";
 in {
+  den.schema.host = {
+    options = {
+      domain = lib.mkOption {
+        type = lib.types.str;
+        description = "Domain name associated with the device";
+      };
+    };
+  };
+
   # Declare routes with simplified generic options
   den.quirks.routes = {
     description = "Route declarations used by reverse-proxy";
@@ -17,7 +25,7 @@ in {
   in [
     (pipe.from "routes" [
       (pipe.transform (r: let
-        fqdn = "${r.subdomain}.${domain}";
+        fqdn = "${r.subdomain}.${host.domain}";
       in
         #assert _ -> r.port != null;
         #assert _ -> r.subdomain != null;
@@ -33,6 +41,7 @@ in {
 
   den.aspects.services.provides.traefik = {
     nixos = {
+      host,
       routes,
       config,
       ...
@@ -80,8 +89,8 @@ in {
                 certResolver = "production";
                 domains = [
                   {
-                    main = domain;
-                    sans = ["*.${domain}"];
+                    main = host.domain;
+                    sans = ["*.${host.domain}"];
                   }
                 ];
               };
@@ -145,7 +154,7 @@ in {
               // {
                 "traefik-dashboard" = {
                   entryPoints = ["websecure"];
-                  rule = "Host(`traefik.${domain}`)";
+                  rule = "Host(`traefik.${host.domain}`)";
                   service = "api@internal";
                 };
               };

@@ -5,6 +5,7 @@
 }: {
   den.hosts.x86_64-linux.gemini = {
     description = "Homelab";
+    domain = "homelab.btoschek.org";
     #users.btoschek = {};     # TODO: Check
   };
 
