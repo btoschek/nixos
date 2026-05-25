@@ -57,11 +57,28 @@
       # ============================================================
 
       boot = {
-        # Roll back to empty root filesystem on each boot    old: postDeviceCommands
-        # https://discourse.nixos.org/t/zfs-rollbacks-suddenly-stopped-working/55333/3
-        #initrd.postResumeCommands = lib.mkAfter ''
-        #  zfs rollback -r rpool/local/root@blank
-        #'';
+        # Thanks to: https://blog.decent.id/post/nixos-systemd-initrd/
+        initrd.systemd.services.zfs-rollback = {
+          description = "Rollback ZFS root dataset to blank snapshot";
+          wantedBy = [
+            "initrd.target"
+          ];
+          after = [
+            # NOTE: This is a dynamically generated service, based on the zpool name
+            "zfs-import-rpool.service"
+          ];
+          before = [
+            "sysroot.mount"
+          ];
+          path = with pkgs; [
+            zfs
+          ];
+          unitConfig.DefaultDependencies = "no";
+          serviceConfig.Type = "oneshot";
+          script = ''
+            zfs rollback -r rpool/local/root@blank && echo "ZFS rollback complete"
+          '';
+        };
 
         # Use the systemd-boot EFI bootloader
         loader = {
