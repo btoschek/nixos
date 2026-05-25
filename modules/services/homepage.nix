@@ -112,6 +112,16 @@
                     siteMonitor = configured_services.jellyfin.internal;
                   };
                 }
+              ])
+              ++ (lib.lists.optionals (configured_services ? "kavita") [
+                {
+                  Kavita = {
+                    description = "Manga reader";
+                    icon = "kavita.svg";
+                    href = configured_services.kavita.url;
+                    siteMonitor = configured_services.kavita.internal;
+                  };
+                }
               ]);
           }
           {

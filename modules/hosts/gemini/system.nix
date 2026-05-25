@@ -21,6 +21,7 @@
       den.aspects.services._.forgejo
       den.aspects.services._.immich
       den.aspects.services._.jellyfin
+      den.aspects.services._.kavita
     ];
 
     nixos = {
