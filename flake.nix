@@ -4,8 +4,8 @@
   inputs = {
     nixpkgs.url = "github:nixos/nixpkgs/nixos-unstable";
 
-    flake-parts.url = "github:hercules-ci/flake-parts";
-
+    # Dendritic config framework inputs
+    den.url = "github:denful/den"; # TODO: Add /latest here
     import-tree.url = "github:vic/import-tree";
 
     home-manager = {
@@ -54,36 +54,8 @@
   };
 
   outputs = inputs:
-    inputs.flake-parts.lib.mkFlake {
-      inherit inputs;
-    }
-    (inputs.import-tree ./modules-new);
-
-  #   outputs = {
-  #     self,
-  #     nixpkgs,
-  #     sops-nix,
-  #     impermanence,
-  #     ...
-  #   } @ inputs: {
-  #     nixosConfigurations = {
-  #       # Main PC
-  #       khora = nixpkgs.lib.nixosSystem {
-  #         specialArgs = {inherit inputs;};
-  #         modules = [
-  #           ./hosts/khora/configuration.nix
-  #         ];
-  #       };
-  #
-  #       # Homeserver
-  #       gemini = nixpkgs.lib.nixosSystem {
-  #         specialArgs = {inherit inputs;};
-  #         modules = [
-  #           ./hosts/gemini/configuration.nix
-  #           impermanence.nixosModules.impermanence
-  #           sops-nix.nixosModules.sops
-  #         ];
-  #       };
-  #     };
-  #   };
+    (inputs.nixpkgs.lib.evalModules {
+      modules = [(inputs.import-tree ./modules)];
+      specialArgs = {inherit inputs;};
+    }).config.flake;
 }
