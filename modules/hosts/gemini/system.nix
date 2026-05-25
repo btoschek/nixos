@@ -56,6 +56,9 @@
       # ============================================================
 
       boot = {
+        # Don't force ZFS to import root pool during early boot (may result in data loss)
+        zfs.forceImportRoot = false;
+
         # Thanks to: https://blog.decent.id/post/nixos-systemd-initrd/
         initrd.systemd.services.zfs-rollback = {
           description = "Rollback ZFS root dataset to blank snapshot";

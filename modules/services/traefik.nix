@@ -147,7 +147,7 @@ in {
                   value = {
                     entryPoints = ["websecure"];
                     rule = "Host(`${r.fqdn}`)";
-                    service = "${r.service}@local";
+                    inherit (r) service;
                   };
                 })
                 routes)
@@ -160,7 +160,7 @@ in {
               };
 
             services = builtins.listToAttrs (builtins.map (r: {
-                name = "${r.service}@local";
+                name = r.service;
                 value = {
                   loadBalancer.servers = [
                     {url = r.internal;}
