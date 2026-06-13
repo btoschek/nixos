@@ -8,7 +8,11 @@
   background = "1e1e2e";
   foreground = "cdd6f4";
 in {
-  den.aspects.music.homeManager = {pkgs, ...}: {
+  den.aspects.music.homeManager = {
+    pkgs,
+    config,
+    ...
+  }: {
     home.packages = with pkgs; [
       cava
     ];
@@ -481,6 +485,15 @@ in {
 
       network = {
         listenAddress = "127.0.0.1";
+      };
+    };
+
+    # Expose mpd to mpris-compatible programs such as playerctl
+    services.mpd-mpris = {
+      enable = true;
+      mpd = {
+        host = config.services.mpd.network.listenAddress;
+        useLocal = config.services.mpd.enable;
       };
     };
   };

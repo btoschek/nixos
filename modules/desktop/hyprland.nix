@@ -429,32 +429,33 @@
               #}
 
               # Audio controls
+              # NOTE: Close spotify to control mpd
 
               {
                 _args = [
                   "XF86AudioPlay"
-                  (lib.generators.mkLuaInline "hl.dsp.exec_cmd(\"playerctl -p spotify play-pause\")")
+                  (lib.generators.mkLuaInline "hl.dsp.exec_cmd(\"playerctl -p spotify,mpd play-pause\")")
                   {description = "Play / pause music";}
                 ];
               }
               {
                 _args = [
                   "XF86AudioNext"
-                  (lib.generators.mkLuaInline "hl.dsp.exec_cmd(\"playerctl -p spotify next\")")
+                  (lib.generators.mkLuaInline "hl.dsp.exec_cmd(\"playerctl -p spotify,mpd next\")")
                   {description = "Skip current music track";}
                 ];
               }
               {
                 _args = [
                   "XF86AudioPrev"
-                  (lib.generators.mkLuaInline "hl.dsp.exec_cmd(\"playerctl -p spotify previous\")")
+                  (lib.generators.mkLuaInline "hl.dsp.exec_cmd(\"playerctl -p spotify,mpd previous\")")
                   {description = "Skip back one music track";}
                 ];
               }
               {
                 _args = [
                   "XF86AudioRaiseVolume"
-                  (lib.generators.mkLuaInline "hl.dsp.exec_cmd(\"playerctl -p spotify volume 0.05+\")")
+                  (lib.generators.mkLuaInline "hl.dsp.exec_cmd(\"playerctl -p spotify,mpd volume 0.05+\")")
                   {
                     description = "Increase music volume";
                     locked = true;
@@ -465,7 +466,7 @@
               {
                 _args = [
                   "XF86AudioLowerVolume"
-                  (lib.generators.mkLuaInline "hl.dsp.exec_cmd(\"playerctl -p spotify volume 0.05-\")")
+                  (lib.generators.mkLuaInline "hl.dsp.exec_cmd(\"playerctl -p spotify,mpd volume 0.05-\")")
                   {
                     description = "Decrease music volume";
                     locked = true;
