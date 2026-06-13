@@ -1,4 +1,8 @@
-{den, ...}: {
+{
+  den,
+  lib,
+  ...
+}: {
   den.aspects.gui = {
     # TODO: Is this even needed?
     nixos = {
@@ -29,194 +33,455 @@
         portalPackage = pkgs.xdg-desktop-portal-hyprland;
         xwayland.enable = true;
 
-        settings = {
-          "$monitor0" = "DP-1";
-          "$monitor1" = "DP-2";
+        configType = "lua";
 
+        settings = let
+          monitor0 = "DP-1";
+          monitor1 = "DP-2";
+          mod = "SUPER";
+        in {
           # Explicitly setup both WQHD monitors
           # Enable fallback for undefined ports
           monitor = [
-            "$monitor0, 2560x1440@165, 0x0, 1"
-            "$monitor1, 2560x1440@165, 2560x0, 1"
-            " , preferred, auto, 1"
+            {
+              output = monitor0;
+              mode = "2560x1440@165";
+              position = "0x0";
+              scale = 1;
+            }
+            {
+              output = monitor1;
+              mode = "2560x1440@165";
+              position = "2560x0";
+              scale = 1;
+            }
+            {
+              output = "";
+              mode = "preferred";
+              position = "auto";
+              scale = 1;
+            }
           ];
 
-          # Background processes
-          exec-once = [
-            "dunst" # Notification daemon
-            "awww-daemon && eww daemon" # Wallpaper daemon & Widgets
-            "eww open wallpaper_time" # Open wallpaper time overlay
-            "copyq --start-server" # Clipboard manager
-          ];
-
-          input = {
-            # Keyboard
-            kb_layout = "de"; # Base layout
-            kb_variant = ""; # Variant (differing keys from base layout, e.g. colemak_dh)
-            kb_model = ""; # Model (e.g. pc86, logitech_base, ...)
-            kb_options = ""; # Options (japanese, euro sign position, ...)
-            kb_rules = "";
-
-            # Mouse
-            sensitivity = 0; # Keep mouse sensitivity at default (-1.0 to 1.0)
-            follow_mouse = 2; # Click another window to relocate focus to it
-            mouse_refocus = true; # Focus overlay windows on mouse move
-          };
-
-          general = {
-            gaps_in = 5; # Gaps between windows
-            gaps_out = 10; # Gaps between windows and monitor edge
-            border_size = 2; # Size of the border around windows
-
-            # NOTE: Those are currently being set by stylix
-            #          "col.active_border" = "rgba(7aa2f7ee) rgba(f7768eee) 30deg";  # Border color of active windows
-            #          "col.inactive_border" = "rgba(595959aa)";                     # Border color of inactive windows
-
-            layout = "dwindle"; # Default layout to use ("dwindle" | "master")
-          };
-
-          misc = {
-            disable_hyprland_logo = true; # Disable default Anime girl background
-            disable_splash_rendering = true; # Disable splash text
-            animate_manual_resizes = true; # Play a small animation when resizing manually
-            on_focus_under_fullscreen = 2; # Disable current fullscreen when opening a new window
-          };
-
-          ecosystem = {
-            no_update_news = true; # Disable popup after wm update
-            no_donation_nag = true; # Disable popup with wm donation request
-          };
-
-          decoration = {
-            rounding = 5; # Rounded window corners
-            blur = {
-              enabled = true; # Enable blurring of window backgrounds (kawase)
-              size = 8; # Blur size (distance)
-              passes = 1; # Amount of passes
-              new_optimizations = true; # Enable optimizations
-            };
-          };
-
-          cursor = {
-            sync_gsettings_theme = true; # Sync xcursor theme with gsettings (GTK apps)
-            enable_hyprcursor = true; # Enable hyprcursor support
-          };
-
-          render.direct_scanout = 2; # Reduce lag for fullscreen games
-
-          animations = {
-            enabled = true;
-            bezier = "myBezier, 0.05, 0.9, 0.1, 1.05";
-            animation = [
-              # NAME, ONOFF, SPEED, CURVE [, STYLE]
-              "windows, 1, 7, myBezier"
-              "windowsOut, 1, 7, default, popin 80%"
-              "border, 1, 10, default"
-              "borderangle, 1, 8, default"
-              "fade, 1, 7, default"
-              "workspaces, 1, 6, default"
+          on = {
+            # Background processes
+            _args = [
+              "hyprland.start"
+              (lib.generators.mkLuaInline ''
+                function()
+                  hl.exec_cmd("dunst")                       -- Notification daemon
+                  hl.exec_cmd("awww-daemon && eww daemon")   -- Wallpaper daemon & Widgets
+                  hl.exec_cmd("eww open wallpaper_time")     -- Open wallpaper time overlay
+                  hl.exec_cmd("copyq --start-server")        -- Clipboard manager
+                end
+              '')
             ];
           };
 
-          dwindle = {
-            force_split = 2; # Always split to the right / below
-            preserve_split = true; # Keep split regardless of what happens to the container
+          config = {
+            general = {
+              gaps_in = 5; # Gaps between windows
+              gaps_out = 10; # Gaps between windows and monitor edge
+              border_size = 2; # Size of the border around windows
+
+              # NOTE: Those are currently being set by stylix
+              #          "col.active_border" = "rgba(7aa2f7ee) rgba(f7768eee) 30deg";  # Border color of active windows
+              #          "col.inactive_border" = "rgba(595959aa)";                     # Border color of inactive windows
+
+              layout = "dwindle"; # Default layout to use ("dwindle" | "master")
+              hover_icon_on_border = false;
+            };
+
+            decoration = {
+              rounding = 5; # Rounded window corners
+              dim_modal = false; # Don't allow parent windows dimming out their own popup windows
+              blur = {
+                enabled = true; # Enable blurring of window backgrounds (kawase)
+                size = 8; # Blur size (distance)
+                passes = 1; # Amount of passes
+                new_optimizations = true; # Enable optimizations
+              };
+            };
+
+            animations = {
+              enabled = true;
+            };
+
+            input = {
+              # Keyboard
+              kb_layout = "de"; # Base layout
+              kb_variant = ""; # Variant (differing keys from base layout, e.g. colemak_dh)
+              kb_model = ""; # Model (e.g. pc86, logitech_base, ...)
+              kb_options = ""; # Options (japanese, euro sign position, ...)
+              kb_rules = "";
+
+              # Mouse
+              sensitivity = 0; # Keep mouse sensitivity at default (-1.0 to 1.0)
+              follow_mouse = 2; # Click another window to relocate focus to it
+              mouse_refocus = true; # Focus overlay windows on mouse move
+            };
+
+            misc = {
+              disable_hyprland_logo = true; # Disable default Anime girl background
+              disable_splash_rendering = true; # Disable splash text
+              animate_manual_resizes = true; # Play a small animation when resizing manually
+              on_focus_under_fullscreen = 2; # Disable current fullscreen when opening a new window
+              vrr = 3; # Allow adaptive sync for fullscreen apps with `video` or `game` content type
+            };
+
+            render = {
+              direct_scanout = 2; # Reduce lag for apps with content type `game`
+              cm_auto_hdr = 1; # Switch to fullscreen HDR if needed
+            };
+
+            cursor = {
+              sync_gsettings_theme = true; # Sync xcursor theme with gsettings (GTK apps)
+              enable_hyprcursor = true; # Enable hyprcursor support
+            };
+
+            ecosystem = {
+              no_update_news = true; # Disable popup after wm update
+              no_donation_nag = true; # Disable popup with wm donation request
+            };
+
+            # Dwindle layout
+            dwindle = {
+              force_split = 2; # Always split to the right / below
+              preserve_split = true; # Keep split regardless of what happens to the container
+            };
           };
 
+          curve = [
+            {
+              _args = [
+                "myBezier"
+                (lib.generators.mkLuaInline "{type = \"bezier\", points = { {0.05, 0.9}, {0.1, 1.05} }}")
+              ];
+            }
+          ];
+
+          animation = [
+            {
+              leaf = "windows";
+              enabled = true;
+              speed = 7;
+              bezier = "myBezier";
+            }
+            {
+              leaf = "windowsOut";
+              enabled = true;
+              speed = 7;
+              bezier = "default";
+              style = "popin 80%";
+            }
+            {
+              leaf = "border";
+              enabled = true;
+              speed = 10;
+              bezier = "default";
+            }
+            {
+              leaf = "borderangle";
+              enabled = true;
+              speed = 8;
+              bezier = "default";
+            }
+            {
+              leaf = "fade";
+              enabled = true;
+              speed = 7;
+              bezier = "default";
+            }
+            {
+              leaf = "workspaces";
+              enabled = true;
+              speed = 6;
+              bezier = "default";
+            }
+          ];
+
           # Dedicate workspaces to monitors
-          workspace = [
-            "1 , monitor:$monitor0"
-            "2 , monitor:$monitor0"
-            "3 , monitor:$monitor1"
-            "4 , monitor:$monitor1"
-            "5 , monitor:$monitor1"
-            "10, monitor:$monitor0"
+          workspace_rule = [
+            {
+              workspace = 1;
+              monitor = monitor0;
+            }
+            {
+              workspace = 2;
+              monitor = monitor0;
+            }
+            {
+              workspace = 3;
+              monitor = monitor1;
+              default_name = "Browser";
+            }
+            {
+              workspace = 4;
+              monitor = monitor1;
+              default_name = "Multimedia";
+            }
+            {
+              workspace = 5;
+              monitor = monitor1;
+              default_name = "Launchers";
+            }
+            {
+              workspace = 10;
+              monitor = monitor0;
+              default_name = "Games";
+            }
           ];
 
-          windowrule = [
-            # Terminal
-            "match:class ^(kitty)$, opacity 0.9 override 0.7 override"
+          window_rule = [
+            {
+              name = "Visualize current working state of terminal windows";
+              match.class = "^(kitty)$";
+              opacity = "0.9 override 0.7 override";
+            }
 
-            # Steam
-            "match:class ^(steam)$, workspace 5 silent"
-            "match:class ^(steam)$, match:title ^(Screenshot Manager)$, float on"
-            "match:class ^(steam)$, match:title ^(Friends List)$, float on"
+            # == Gaming ====================================================
 
-            # Games
-            # {
-            #   "name" = "Steam Games";
-            #   "match:initial_class" = "^steam_app_\\d+$";
+            {
+              name = "Automatically open Steam-related windows on dedicated launcher workspace";
+              match.class = "^(steam)$";
+              workspace = "name:Launchers silent";
+            }
+            #{
+            #  name = "Automatically open Prism launcher (Minecraft) on dedicated launcher workspace";
+            #  match.class = "org.prismlauncher.PrismLauncher";
+            #  workspace = "name:5 silent";
+            #}
+            {
+              name = "Float Steam screenshot manager";
+              match = {
+                class = "^(steam)$";
+                title = "^(Screenshot Manager)$";
+              };
+              float = true;
+            }
+            {
+              name = "Float Steam friends list";
+              match = {
+                class = "^(steam)$";
+                title = "^(Friends List)$";
+              };
+              float = true;
+            }
+            {
+              name = "Steam Games";
+              match.initial_class = "^steam_app_\\d+$";
+              workspace = "name:Games silent";
+              content = "game";
+              rounding = 0;
+            }
+            {
+              name = "GregTech: New Horizons";
+              match.class = "^(GT\\:\\ New Horizons)(.*)$";
+              workspace = "name:Games silent";
+              content = "game";
+            }
 
-            #   "workspace" = "10 silent";
-            #   "content" = "game";
-            #   "rounding" = 0;
-            # }
-            "match:initial_class ^steam_app_\\d+$, workspace 10 silent"
-            "match:initial_class ^steam_app_\\d+$, content game"
-            "match:initial_class ^steam_app_\\d+$, rounding 0"
+            # == Default workspace assignments =============================
 
-            "match:class ^(GT\\:\\ New Horizons)(.*)$, workspace 10 silent"
-            "match:class ^(GT\\:\\ New Horizons)(.*)$, content game"
+            {
+              name = "Automatically open spotify on multimedia workspace";
+              match.class = "^(Spotify)$";
+              workspace = "4 silent"; # NOTE: Why does "Multimedia" not work here, dafuq?
+            }
+            {
+              name = "Automatically open discord on multimedia workspace";
+              match.class = "^(discord)$";
+              workspace = "4 silent"; # NOTE: Why does "Multimedia" not work here, dafuq?
+            }
+            {
+              name = "Automatically open floorp on Browser workspace";
+              match.class = "^(floorp)$";
+              workspace = "name:Browser silent";
+            }
 
-            # Workspace 4: Multimedia / Communication
-            "match:class ^(spotify)$, workspace 4 silent"
-            "match:class ^(discord)$, workspace 4 silent"
-
-            # Workspace 3: Browsers
-            "match:class ^(firefox)$, workspace 3 silent"
-            "match:class ^(org.qutebrowser.qutebrowser)$, workspace 3 silent"
-            "match:class ^(zen)$, workspace 3 silent"
-            "match:class ^(floorp)$, workspace 3 silent"
-
-            "match:initial_title ^(Picture-in-Picture)$, float on"
-            "match:initial_title ^(Picture-in-Picture)$, size 30% 30%"
-            "match:initial_title ^(Picture-in-Picture)$, move 100%-w-30 100%-w-30"
+            {
+              name = "Automatically position Picture-in-Picture windows at the bottom right of the screen";
+              match.initial_title = "^(Picture-in-Picture)$";
+              float = true;
+              size = "30% 30%";
+              move = "{\"monitor_w-window_w-30\", \"monitor_h-window_h-30\"}";
+            }
           ];
-
-          "$mod" = "SUPER";
 
           bind =
             [
-              "$mod, Return, exec, kitty"
-              "$mod, Z     , exec, kitty -e rmpc"
+              {
+                _args = [
+                  "${mod} + RETURN"
+                  (lib.generators.mkLuaInline "hl.dsp.exec_cmd(\"kitty\")")
+                  {description = "Open terminal";}
+                ];
+              }
+              {
+                _args = [
+                  "${mod} + Z"
+                  (lib.generators.mkLuaInline "hl.dsp.exec_cmd(\"kitty -e rmpc\")")
+                  {description = "Open local music player (rmpc)";}
+                ];
+              }
+              {
+                _args = [
+                  "${mod} + SPACE"
+                  (lib.generators.mkLuaInline "hl.dsp.exec_cmd(\"$HOME/.config/rofi/scripts/launcher.sh\")")
+                  {description = "Execute application runner";}
+                ];
+              }
+              {
+                _args = [
+                  "${mod} + C"
+                  (lib.generators.mkLuaInline "hl.dsp.window.close()")
+                  {description = "Close the currently focused window";}
+                ];
+              }
+              #{
+              #  _args = [
+              #    "${mod} + V"
+              #    (lib.generators.mkLuaInline "hl.dsp.window.float()")  # ???
+              #    {description = "Toggle floating behaviour of focused window";}
+              #  ];
+              #}
+              {
+                _args = [
+                  "${mod} + F"
+                  (lib.generators.mkLuaInline "hl.dsp.window.fullscreen({mode = \"maximized\", action = \"toggle\"})")
+                  {description = "Fullscreen window (with border)";}
+                ];
+              }
+              {
+                _args = [
+                  "${mod} + T"
+                  (lib.generators.mkLuaInline "hl.dsp.window.fullscreen({mode = \"fullscreen\", action = \"toggle\"})")
+                  {description = "Fullscreen window (no border)";}
+                ];
+              }
+              {
+                _args = [
+                  "${mod} + mouse:272"
+                  (lib.generators.mkLuaInline "hl.dsp.window.drag()")
+                  {description = "Move window around with the cursor";}
+                ];
+              }
+              {
+                _args = [
+                  "${mod} + mouse:273"
+                  (lib.generators.mkLuaInline "hl.dsp.window.resize()")
+                  {description = "Resize window using the cursor";}
+                ];
+              }
+              {
+                _args = [
+                  "${mod} + S"
+                  (lib.generators.mkLuaInline "hl.dsp.exec_cmd(\"$HOME/.config/hypr/scripts/screenshot.sh area\")")
+                  {description = "Screenshot specific area";}
+                ];
+              }
+              {
+                _args = [
+                  "${mod} + N"
+                  (lib.generators.mkLuaInline "hl.dsp.exec_cmd(\"$(eww get EWW_CONFIG_DIR)/scripts/toggle_popup sidebar\")")
+                  {description = "Toggle sidebar";}
+                ];
+              }
 
-              "$mod, C    , killactive," # Kill the currently focused window
-              "$mod, V    , togglefloating," # Toggle floating behaviour for focused window
-              "$mod, Space, exec, $HOME/.config/rofi/scripts/launcher.sh" # Execute application runner
-              "$mod, P    , pseudo," # Change tiling to use pseudo mode
-              "$mod, F    , fullscreen, 1" # Fullscreen window (with border)
-              "$mod, T    , fullscreen, 0" # Fullscreen window (no border)
-              "$mod, B    , layoutmsg, togglesplit" # Rotate split orientation
-
-              # Screenshot
-              "$mod, s, exec, $HOME/.config/hypr/scripts/screenshot.sh area"
-
-              # Toggle sidebar
-              "$mod, n, exec, $(eww get EWW_CONFIG_DIR)/scripts/toggle_popup sidebar"
-
-              # Move focus with $mod + vim bindings
-              "$mod, h, movefocus, l"
-              "$mod, l, movefocus, r"
-              "$mod, k, movefocus, u"
-              "$mod, j, movefocus, d"
+              # Vim motions
+              {
+                _args = [
+                  "${mod} + H"
+                  (lib.generators.mkLuaInline "hl.dsp.focus({direction = \"l\"})")
+                  {description = "Move focus to the left";}
+                ];
+              }
+              {
+                _args = [
+                  "${mod} + L"
+                  (lib.generators.mkLuaInline "hl.dsp.focus({direction = \"r\"})")
+                  {description = "Move focus to the right";}
+                ];
+              }
+              {
+                _args = [
+                  "${mod} + K"
+                  (lib.generators.mkLuaInline "hl.dsp.focus({direction = \"u\"})")
+                  {description = "Move focus up";}
+                ];
+              }
+              {
+                _args = [
+                  "${mod} + J"
+                  (lib.generators.mkLuaInline "hl.dsp.focus({direction = \"d\"})")
+                  {description = "Move focus down";}
+                ];
+              }
 
               # Move current workspace to different monitor
-              "$mod SHIFT, LEFT, movecurrentworkspacetomonitor, l"
-              "$mod SHIFT, RIGHT, movecurrentworkspacetomonitor, r"
-              "$mod SHIFT, UP, movecurrentworkspacetomonitor, l"
-              "$mod SHIFT, DOWN, movecurrentworkspacetomonitor, r"
 
-              # Scroll through existing workspaces with $mod + scroll
-              "$mod, mouse_down, workspace, e+1"
-              "$mod, mouse_up  , workspace, e-1"
+              #{
+              #  _args = [
+              #    "${mod} + SHIFT + LEFT"
+              #    (lib.generators.mkLuaInline "hl.dsp.workspace.move({direction = \"d\"})")
+              #    {description = "Move focus down";}
+              #  ];
+              #}
 
               # Audio controls
-              " , XF86AudioPlay , exec, playerctl -p spotify play-pause"
-              " , XF86AudioNext , exec, playerctl -p spotify next"
-              " , XF86AudioPrev , exec, playerctl -p spotify previous"
+
+              {
+                _args = [
+                  "XF86AudioPlay"
+                  (lib.generators.mkLuaInline "hl.dsp.exec_cmd(\"playerctl -p spotify play-pause\")")
+                  {description = "Play / pause music";}
+                ];
+              }
+              {
+                _args = [
+                  "XF86AudioNext"
+                  (lib.generators.mkLuaInline "hl.dsp.exec_cmd(\"playerctl -p spotify next\")")
+                  {description = "Skip current music track";}
+                ];
+              }
+              {
+                _args = [
+                  "XF86AudioPrev"
+                  (lib.generators.mkLuaInline "hl.dsp.exec_cmd(\"playerctl -p spotify previous\")")
+                  {description = "Skip back one music track";}
+                ];
+              }
+              {
+                _args = [
+                  "XF86AudioRaiseVolume"
+                  (lib.generators.mkLuaInline "hl.dsp.exec_cmd(\"playerctl -p spotify volume 0.05+\")")
+                  {
+                    description = "Increase music volume";
+                    locked = true;
+                    repeating = true;
+                  }
+                ];
+              }
+              {
+                _args = [
+                  "XF86AudioLowerVolume"
+                  (lib.generators.mkLuaInline "hl.dsp.exec_cmd(\"playerctl -p spotify volume 0.05-\")")
+                  {
+                    description = "Decrease music volume";
+                    locked = true;
+                    repeating = true;
+                  }
+                ];
+              }
 
               # Testing: Get information about currently selected window
-              "$mod, I, exec, notify-send \"Active window:\" \"`hyprctl activewindow`\""
+              {
+                _args = [
+                  "${mod} + I"
+                  (lib.generators.mkLuaInline "hl.dsp.exec_cmd('notify-send \"Active window:\" \"`hyprctl activewindow`\"')")
+                  {description = "Show information about currently focused window";}
+                ];
+              }
             ]
             ++ (
               # Switch/[move window] to workspace with $mod[+ Shift] + number
@@ -227,25 +492,18 @@
                       then 10
                       else i;
                   in [
-                    "$mod, ${toString i}, workspace, ${toString ws}"
-                    "$mod SHIFT, ${toString i}, movetoworkspace, ${toString ws}"
+                    {
+                      _args = [
+                        "${mod} + ${toString i}"
+                        (lib.generators.mkLuaInline "hl.dsp.focus({workspace = ${toString i}})")
+                        {description = "Focus workspace ${toString i}";}
+                      ];
+                    }
+                    #"$mod SHIFT, ${toString i}, movetoworkspace, ${toString ws}"
                   ]
                 )
                 10)
             );
-
-          # Mouse bindings
-          bindm = [
-            # Move / resize window with $mod + LMB/RMB and dragging
-            "$mod, mouse:272, movewindow"
-            "$mod, mouse:273, resizewindow"
-          ];
-
-          # Repeating when held
-          binde = [
-            " , XF86AudioRaiseVolume, exec, playerctl -p spotify volume 0.05+"
-            " , XF86AudioLowerVolume, exec, playerctl -p spotify volume 0.05-"
-          ];
         };
       };
     };
