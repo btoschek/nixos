@@ -270,14 +270,14 @@
             {
               name = "Steam Games";
               match.initial_class = "^steam_app_\\d+$";
-              workspace = "name:Games silent";
+              workspace = "10 silent";
               content = "game";
               rounding = 0;
             }
             {
               name = "GregTech: New Horizons";
               match.class = "^(GT\\:\\ New Horizons)(.*)$";
-              workspace = "name:Games silent";
+              workspace = "10 silent";
               content = "game";
             }
 
@@ -495,8 +495,8 @@
                     {
                       _args = [
                         "${mod} + ${toString i}"
-                        (lib.generators.mkLuaInline "hl.dsp.focus({workspace = ${toString i}})")
-                        {description = "Focus workspace ${toString i}";}
+                        (lib.generators.mkLuaInline "hl.dsp.focus({workspace = ${toString ws}})")
+                        {description = "Focus workspace ${toString ws}";}
                       ];
                     }
                     #"$mod SHIFT, ${toString i}, movetoworkspace, ${toString ws}"
