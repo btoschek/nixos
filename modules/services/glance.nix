@@ -155,6 +155,63 @@
                 }
               ];
             }
+            {
+              name = "Aviation";
+              columns = [
+                {
+                  size = "full";
+                  widgets = [
+                    {
+                      type = "custom-api";
+                      title = "EDFC";
+                      cache = "5m";
+                      template = "<img src=\"https://www.fscaschaffenburg.de/webcam/Flugplatz.jpg\"></img>";
+                    }
+                  ];
+                }
+                {
+                  size = "small";
+                  widgets = [
+                    {
+                      type = "bookmarks";
+                      groups = [
+                        {
+                          title = "General";
+                          links = [
+                            {
+                              title = "Flightradar24";
+                              url = "https://www.flightradar24.com/49.75,9.43/11";
+                            }
+                          ];
+                        }
+                        {
+                          title = "Flight planning";
+                          links = [
+                            {
+                              title = "AIP Online Germany";
+                              url = "https://aip.dfs.de/basicAIP/";
+                            }
+                          ];
+                        }
+                        {
+                          title = "VATSIM";
+                          links = [
+                            {
+                              title = "VATSIM Radar";
+                              url = "https://vatsim-radar.com/?center=14.07488,46.01570&zoom=5.05";
+                            }
+                            {
+                              title = "VATSIM Germany";
+                              url = "https://vatsim-germany.org/";
+                            }
+                          ];
+                        }
+                      ];
+                    }
+                  ];
+                }
+              ];
+            }
           ];
         };
       };
