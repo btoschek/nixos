@@ -126,7 +126,7 @@
               disable_splash_rendering = true; # Disable splash text
               animate_manual_resizes = true; # Play a small animation when resizing manually
               on_focus_under_fullscreen = 2; # Disable current fullscreen when opening a new window
-              vrr = 3; # Allow adaptive sync for fullscreen apps with `video` or `game` content type
+              #vrr = 3; # Allow adaptive sync for fullscreen apps with `video` or `game` content type
             };
 
             render = {
@@ -308,203 +308,111 @@
             }
           ];
 
-          bind =
-            [
-              {
-                _args = [
-                  "${mod} + RETURN"
-                  (lib.generators.mkLuaInline "hl.dsp.exec_cmd(\"kitty\")")
-                  {description = "Open terminal";}
-                ];
-              }
-              {
-                _args = [
-                  "${mod} + Z"
-                  (lib.generators.mkLuaInline "hl.dsp.exec_cmd(\"kitty -e rmpc\")")
-                  {description = "Open local music player (rmpc)";}
-                ];
-              }
-              {
-                _args = [
-                  "${mod} + SPACE"
-                  (lib.generators.mkLuaInline "hl.dsp.exec_cmd(\"$HOME/.config/rofi/scripts/launcher.sh\")")
-                  {description = "Execute application runner";}
-                ];
-              }
-              {
-                _args = [
-                  "${mod} + C"
-                  (lib.generators.mkLuaInline "hl.dsp.window.close()")
-                  {description = "Close the currently focused window";}
-                ];
-              }
-              #{
-              #  _args = [
-              #    "${mod} + V"
-              #    (lib.generators.mkLuaInline "hl.dsp.window.float()")  # ???
-              #    {description = "Toggle floating behaviour of focused window";}
-              #  ];
-              #}
-              {
-                _args = [
-                  "${mod} + F"
-                  (lib.generators.mkLuaInline "hl.dsp.window.fullscreen({mode = \"maximized\", action = \"toggle\"})")
-                  {description = "Fullscreen window (with border)";}
-                ];
-              }
-              {
-                _args = [
-                  "${mod} + T"
-                  (lib.generators.mkLuaInline "hl.dsp.window.fullscreen({mode = \"fullscreen\", action = \"toggle\"})")
-                  {description = "Fullscreen window (no border)";}
-                ];
-              }
-              {
-                _args = [
-                  "${mod} + mouse:272"
-                  (lib.generators.mkLuaInline "hl.dsp.window.drag()")
-                  {description = "Move window around with the cursor";}
-                ];
-              }
-              {
-                _args = [
-                  "${mod} + mouse:273"
-                  (lib.generators.mkLuaInline "hl.dsp.window.resize()")
-                  {description = "Resize window using the cursor";}
-                ];
-              }
-              {
-                _args = [
-                  "${mod} + S"
-                  (lib.generators.mkLuaInline "hl.dsp.exec_cmd(\"$HOME/.config/hypr/scripts/screenshot.sh area\")")
-                  {description = "Screenshot specific area";}
-                ];
-              }
-              {
-                _args = [
-                  "${mod} + N"
-                  (lib.generators.mkLuaInline "hl.dsp.exec_cmd(\"$(eww get EWW_CONFIG_DIR)/scripts/toggle_popup sidebar\")")
-                  {description = "Toggle sidebar";}
-                ];
-              }
+          bind = let
+            lua = lib.generators.mkLuaInline;
+            bind = key: action: {
+              _args = [
+                key
+                (lua action)
+              ];
+            };
 
-              # Vim motions
-              {
-                _args = [
-                  "${mod} + H"
-                  (lib.generators.mkLuaInline "hl.dsp.focus({direction = \"l\"})")
-                  {description = "Move focus to the left";}
-                ];
-              }
-              {
-                _args = [
-                  "${mod} + L"
-                  (lib.generators.mkLuaInline "hl.dsp.focus({direction = \"r\"})")
-                  {description = "Move focus to the right";}
-                ];
-              }
-              {
-                _args = [
-                  "${mod} + K"
-                  (lib.generators.mkLuaInline "hl.dsp.focus({direction = \"u\"})")
-                  {description = "Move focus up";}
-                ];
-              }
-              {
-                _args = [
-                  "${mod} + J"
-                  (lib.generators.mkLuaInline "hl.dsp.focus({direction = \"d\"})")
-                  {description = "Move focus down";}
-                ];
-              }
+            exec = cmd: ''hl.dsp.exec_cmd("${cmd}")'';
+            mvws = ws: ''hl.dsp.focus({ workspace = "${ws}" })'';
+            mvwd = ws: ''hl.dsp.window.move({ workspace = "${ws}" })'';
+            fs = mode: ''hl.dsp.window.fullscreen({ mode = "${mode}", action = "toggle" })'';
+            focusdir = dir: ''hl.dsp.focus({ direction = "${dir}" })'';
+          in [
+            (bind "${mod} + RETURN" (exec "kitty"))
+            (bind "${mod} + Z" (exec "kitty -e rmpc"))
+            (bind "${mod} + SPACE" (exec "$HOME/.config/rofi/scripts/launcher.sh"))
+            (bind "${mod} + S" (exec "$HOME/.config/hypr/scripts/screenshot.sh area"))
+            (bind "${mod} + N" (exec "$(eww get EWW_CONFIG_DIR)/scripts/toggle_popup sidebar"))
 
-              # Move current workspace to different monitor
+            # Move to workspace
+            (bind "${mod} + 1" (mvws "1"))
+            (bind "${mod} + 2" (mvws "2"))
+            (bind "${mod} + 3" (mvws "3"))
+            (bind "${mod} + 4" (mvws "4"))
+            (bind "${mod} + 5" (mvws "5"))
+            (bind "${mod} + 6" (mvws "6"))
+            (bind "${mod} + 7" (mvws "7"))
+            (bind "${mod} + 8" (mvws "8"))
+            (bind "${mod} + 9" (mvws "9"))
+            (bind "${mod} + 0" (mvws "10"))
 
-              #{
-              #  _args = [
-              #    "${mod} + SHIFT + LEFT"
-              #    (lib.generators.mkLuaInline "hl.dsp.workspace.move({direction = \"d\"})")
-              #    {description = "Move focus down";}
-              #  ];
-              #}
+            # Move current window to different workspace
+            (bind "${mod} + SHIFT + 1" (mvwd "1"))
+            (bind "${mod} + SHIFT + 2" (mvwd "2"))
+            (bind "${mod} + SHIFT + 3" (mvwd "3"))
+            (bind "${mod} + SHIFT + 4" (mvwd "4"))
+            (bind "${mod} + SHIFT + 5" (mvwd "5"))
+            (bind "${mod} + SHIFT + 6" (mvwd "6"))
+            (bind "${mod} + SHIFT + 7" (mvwd "7"))
+            (bind "${mod} + SHIFT + 8" (mvwd "8"))
+            (bind "${mod} + SHIFT + 9" (mvwd "9"))
+            (bind "${mod} + SHIFT + 0" (mvwd "10"))
 
-              # Audio controls
-              # NOTE: Close spotify to control mpd
+            (bind "${mod} + mouse:272" "hl.dsp.window.drag()")
+            (bind "${mod} + mouse:273" "hl.dsp.window.resize()")
+            (bind "${mod} + V" "hl.dsp.window.float({})") # TODO: Check
+            (bind "${mod} + C" "hl.dsp.window.close()")
 
-              {
-                _args = [
-                  "XF86AudioPlay"
-                  (lib.generators.mkLuaInline "hl.dsp.exec_cmd(\"playerctl -p spotify,mpd play-pause\")")
-                  {description = "Play / pause music";}
-                ];
-              }
-              {
-                _args = [
-                  "XF86AudioNext"
-                  (lib.generators.mkLuaInline "hl.dsp.exec_cmd(\"playerctl -p spotify,mpd next\")")
-                  {description = "Skip current music track";}
-                ];
-              }
-              {
-                _args = [
-                  "XF86AudioPrev"
-                  (lib.generators.mkLuaInline "hl.dsp.exec_cmd(\"playerctl -p spotify,mpd previous\")")
-                  {description = "Skip back one music track";}
-                ];
-              }
-              {
-                _args = [
-                  "XF86AudioRaiseVolume"
-                  (lib.generators.mkLuaInline "hl.dsp.exec_cmd(\"playerctl -p spotify,mpd volume 0.05+\")")
-                  {
-                    description = "Increase music volume";
-                    locked = true;
-                    repeating = true;
-                  }
-                ];
-              }
-              {
-                _args = [
-                  "XF86AudioLowerVolume"
-                  (lib.generators.mkLuaInline "hl.dsp.exec_cmd(\"playerctl -p spotify,mpd volume 0.05-\")")
-                  {
-                    description = "Decrease music volume";
-                    locked = true;
-                    repeating = true;
-                  }
-                ];
-              }
+            (bind "${mod} + F" (fs "maximized"))
+            (bind "${mod} + T" (fs "fullscreen"))
 
-              # Testing: Get information about currently selected window
-              {
-                _args = [
-                  "${mod} + I"
-                  (lib.generators.mkLuaInline "hl.dsp.exec_cmd('notify-send \"Active window:\" \"`hyprctl activewindow`\"')")
-                  {description = "Show information about currently focused window";}
-                ];
-              }
-            ]
-            ++ (
-              # Switch/[move window] to workspace with $mod[+ Shift] + number
-              builtins.concatLists (builtins.genList (
-                  i: let
-                    ws =
-                      if i == 0
-                      then 10
-                      else i;
-                  in [
-                    {
-                      _args = [
-                        "${mod} + ${toString i}"
-                        (lib.generators.mkLuaInline "hl.dsp.focus({workspace = ${toString ws}})")
-                        {description = "Focus workspace ${toString ws}";}
-                      ];
-                    }
-                    #"$mod SHIFT, ${toString i}, movetoworkspace, ${toString ws}"
-                  ]
-                )
-                10)
-            );
+            # Vim motions
+            (bind "${mod} + H" (focusdir "l"))
+            (bind "${mod} + L" (focusdir "r"))
+            (bind "${mod} + K" (focusdir "u"))
+            (bind "${mod} + J" (focusdir "d"))
+
+            #{
+            #  _args = [
+            #    "${mod} + SHIFT + LEFT"
+            #    (lib.generators.mkLuaInline "hl.dsp.workspace.move({direction = \"d\"})")
+            #    {description = "Move focus down";}
+            #  ];
+            #}
+
+            # Audio controls
+            # NOTE: Close spotify to control mpd
+
+            (bind "XF86AudioPlay" (exec "playerctl -p spotify,mpd play-pause"))
+            (bind "XF86AudioNext" (exec "playerctl -p spotify,mpd next"))
+            (bind "XF86AudioPrev" (exec "playerctl -p spotify,mpd previous"))
+            {
+              _args = [
+                "XF86AudioRaiseVolume"
+                (lib.generators.mkLuaInline "hl.dsp.exec_cmd(\"playerctl -p spotify,mpd volume 0.05+\")")
+                {
+                  description = "Increase music volume";
+                  locked = true;
+                  repeating = true;
+                }
+              ];
+            }
+            {
+              _args = [
+                "XF86AudioLowerVolume"
+                (lib.generators.mkLuaInline "hl.dsp.exec_cmd(\"playerctl -p spotify,mpd volume 0.05-\")")
+                {
+                  description = "Decrease music volume";
+                  locked = true;
+                  repeating = true;
+                }
+              ];
+            }
+
+            # Testing: Get information about currently selected window
+            {
+              _args = [
+                "${mod} + I"
+                (lib.generators.mkLuaInline "hl.dsp.exec_cmd('notify-send \"Active window:\" \"`hyprctl activewindow`\"')")
+                {description = "Show information about currently focused window";}
+              ];
+            }
+          ];
         };
       };
     };
