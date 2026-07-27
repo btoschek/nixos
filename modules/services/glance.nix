@@ -191,6 +191,10 @@
                               title = "AIP Online Germany";
                               url = "https://aip.dfs.de/basicAIP/";
                             }
+                            {
+                              title = "NOTAM Briefing";
+                              url = "https://secais.dfs.de/pilotservice/home.jsp";
+                            }
                           ];
                         }
                         {
