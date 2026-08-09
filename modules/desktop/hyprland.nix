@@ -213,22 +213,22 @@
             {
               workspace = 3;
               monitor = monitor1;
-              default_name = "Browser";
+              #default_name = "Browser";
             }
             {
               workspace = 4;
               monitor = monitor1;
-              default_name = "Multimedia";
+              #default_name = "Multimedia";
             }
             {
               workspace = 5;
               monitor = monitor1;
-              default_name = "Launchers";
+              #default_name = "Launchers";
             }
             {
               workspace = 10;
               monitor = monitor0;
-              default_name = "Games";
+              #default_name = "Games";
             }
           ];
 
@@ -244,7 +244,7 @@
             {
               name = "Automatically open Steam-related windows on dedicated launcher workspace";
               match.class = "^(steam)$";
-              workspace = "name:Launchers silent";
+              workspace = "5 silent";
             }
             #{
             #  name = "Automatically open Prism launcher (Minecraft) on dedicated launcher workspace";
@@ -296,7 +296,7 @@
             {
               name = "Automatically open floorp on Browser workspace";
               match.class = "^(floorp)$";
-              workspace = "name:Browser silent";
+              workspace = "3 silent";
             }
 
             {
@@ -381,37 +381,12 @@
             (bind "XF86AudioPlay" (exec "playerctl -p spotify,mpd play-pause"))
             (bind "XF86AudioNext" (exec "playerctl -p spotify,mpd next"))
             (bind "XF86AudioPrev" (exec "playerctl -p spotify,mpd previous"))
-            {
-              _args = [
-                "XF86AudioRaiseVolume"
-                (lib.generators.mkLuaInline "hl.dsp.exec_cmd(\"playerctl -p spotify,mpd volume 0.05+\")")
-                {
-                  description = "Increase music volume";
-                  locked = true;
-                  repeating = true;
-                }
-              ];
-            }
-            {
-              _args = [
-                "XF86AudioLowerVolume"
-                (lib.generators.mkLuaInline "hl.dsp.exec_cmd(\"playerctl -p spotify,mpd volume 0.05-\")")
-                {
-                  description = "Decrease music volume";
-                  locked = true;
-                  repeating = true;
-                }
-              ];
-            }
+
+            (bind "XF86AudioRaiseVolume" (exec "playerctl -p spotify,mpd volume 0.05+"))
+            (bind "XF86AudioLowerVolume" (exec "playerctl -p spotify,mpd volume 0.05-"))
 
             # Testing: Get information about currently selected window
-            {
-              _args = [
-                "${mod} + I"
-                (lib.generators.mkLuaInline "hl.dsp.exec_cmd('notify-send \"Active window:\" \"`hyprctl activewindow`\"')")
-                {description = "Show information about currently focused window";}
-              ];
-            }
+            (bind "${mod} + I" (exec "notify-send \\\"Active window:\\\" \\\"`hyprctl activewindow`\\\""))
           ];
         };
       };
