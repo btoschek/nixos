@@ -15,5 +15,20 @@
 
   den.default = {
     homeManager.home.stateVersion = "25.05";
+
+    nixos = {config, ...}: {
+      # Localization
+      time.timeZone = "Europe/Berlin";
+      i18n.defaultLocale = "en_US.UTF-8";
+      console = {
+        keyMap = "de";
+        useXkbConfig = false;
+      };
+
+      # NOTE: Primarily needed for ZFS pool generation
+      networking.hostId = builtins.substring 0 8 (
+        builtins.hashString "sha256" config.networking.hostName
+      );
+    };
   };
 }

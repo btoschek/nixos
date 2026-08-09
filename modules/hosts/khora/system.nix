@@ -1,6 +1,7 @@
 {den, ...}: {
   den.hosts.x86_64-linux.khora = {
     description = "Main PC (Tower)";
+    domain = "";
     users.btoschek.classes = ["homeManager"];
   };
 
@@ -34,7 +35,10 @@
         };
       };
 
-      networking.networkmanager.enable = true;
+      networking = {
+        networkmanager.enable = true;
+        firewall.enable = true;
+      };
 
       # Automatic updating
       system.autoUpgrade = {
@@ -53,17 +57,6 @@
           experimental-features = ["nix-command" "flakes"];
           auto-optimise-store = true;
         };
-      };
-
-      # Set your time zone.
-      time.timeZone = "Europe/Berlin";
-
-      # Select internationalisation properties.
-      i18n.defaultLocale = "en_US.UTF-8";
-      console = {
-        # font = "Consolas";
-        keyMap = "de";
-        useXkbConfig = false; # use xkb.options in tty.
       };
 
       environment.sessionVariables = {

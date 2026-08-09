@@ -93,18 +93,8 @@
 
       # Networking
       networking = {
-        hostId = builtins.substring 0 8 (
-          builtins.hashString "sha256" config.networking.hostName
-        );
         networkmanager.enable = true;
         firewall.enable = true;
-      };
-
-      # Localization
-      time.timeZone = "Europe/Berlin";
-      i18n.defaultLocale = "en_US.UTF-8";
-      console = {
-        keyMap = "de";
       };
 
       # ============================================================
