@@ -151,7 +151,6 @@
 
         nfs-utils
 
-        quickshell
       ];
 
       # Open ports in the firewall.

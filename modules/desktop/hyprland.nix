@@ -71,7 +71,7 @@
                 function()
                   hl.exec_cmd("dunst")                       -- Notification daemon
                   hl.exec_cmd("awww-daemon && eww daemon")   -- Wallpaper daemon & Widgets
-                  hl.exec_cmd("eww open wallpaper_time")     -- Open wallpaper time overlay
+                  hl.exec_cmd("qs -d -c desktop")            -- Custom desktop shell
                   hl.exec_cmd("copyq --start-server")        -- Clipboard manager
                 end
               '')
