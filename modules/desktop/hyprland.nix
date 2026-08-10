@@ -69,7 +69,7 @@
               "hyprland.start"
               (lib.generators.mkLuaInline ''
                 function()
-                  hl.exec_cmd("dunst")                       -- Notification daemon
+                  -- hl.exec_cmd("dunst")                       -- Notification daemon
                   hl.exec_cmd("awww-daemon && eww daemon")   -- Wallpaper daemon & Widgets
                   hl.exec_cmd("qs -d -c desktop")            -- Custom desktop shell
                   hl.exec_cmd("copyq --start-server")        -- Clipboard manager

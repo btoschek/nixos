@@ -1,5 +1,5 @@
 {den, ...}: {
-  den.aspects.gui.nixos = {
+  den.aspects.inactive.nixos = {
     services.dunst = {
       enable = true;
       settings = {
