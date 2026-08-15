@@ -1,4 +1,5 @@
 import "modules/common"
+import "modules/overlays"
 import "modules/quickshell"
 import "modules/notifications"
 import "services"
@@ -9,6 +10,8 @@ ShellRoot {
     id: root
 
     ReloadPopup {}
+
+    WallpaperTimeOverlay {}
 
     NotificationPopups {}
 }
