@@ -2,6 +2,8 @@ import QtQuick
 import QtQuick.Layouts
 import Quickshell
 
+import qs.modules.common
+
 Scope {
     id: root
     property bool failed
@@ -53,7 +55,7 @@ Scope {
 
             Rectangle {
                 id: rect
-                color: failed ? "#40802080" : "#40009080"
+                color: failed ? Appearance.colors.red : Appearance.colors.green
 
                 implicitHeight: layout.implicitHeight + 50
                 implicitWidth: layout.implicitWidth + 30
@@ -80,12 +82,12 @@ Scope {
 
                     Text {
                         text: root.failed ? "Reload failed." : "Reloaded completed!"
-                        color: "white"
+                        color: Appearance.colors.foreground
                     }
 
                     Text {
                         text: root.errorString
-                        color: "white"
+                        color: Appearance.colors.foreground
                         // When visible is false, it also takes up no space.
                         visible: root.errorString != ""
                     }

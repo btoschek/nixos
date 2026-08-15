@@ -8,6 +8,9 @@
 
       # Python
       ruff.enable = true;
+
+      # QML
+      qmlls.enable = true;
     };
 
     # TODO: Add options (silent, noremap)

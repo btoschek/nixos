@@ -5,21 +5,12 @@ import QtQuick
 import QtQuick.Layouts
 
 import qs.modules.common
+import qs.services
 
 Scope {
     id: root
 
     property int timeout: 5000
-
-    NotificationServer {
-        id: server
-
-        actionsSupported: true
-        bodySupported: true
-        imageSupported: true
-
-        onNotification: n => n.tracked = true
-    }
 
     PanelWindow {
 
@@ -47,7 +38,7 @@ Scope {
             spacing: 15
 
             Repeater {
-                model: server.trackedNotifications
+                model: Notifications.notificationServer.trackedNotifications
 
                 delegate: ClippingRectangle {
                     id: card
