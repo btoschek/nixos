@@ -22,6 +22,7 @@
       den.aspects.services._.immich
       den.aspects.services._.jellyfin
       den.aspects.services._.kavita
+      den.aspects.services._.paperless
       den.aspects.services._.glance
     ];
 

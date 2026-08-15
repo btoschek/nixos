@@ -127,6 +127,14 @@
                             url = configured_services.forgejo.url;
                             check-url = configured_services.forgejo.internal;
                           }
+                        ])
+                        ++ (lib.lists.optionals (configured_services ? "paperless") [
+                          {
+                            title = "Paperless-ngx";
+                            icon = "sh:paperless-ngx";
+                            url = configured_services.paperless.url;
+                            check-url = configured_services.paperless.internal;
+                          }
                         ]);
                     }
                   ];
