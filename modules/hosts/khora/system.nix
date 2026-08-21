@@ -15,6 +15,7 @@
 
       (den.provides.unfree [
         "discord"
+        "discord-unwrapped"
         "obsidian"
         "makemkv"
       ])
@@ -134,7 +135,6 @@
         bottom
 
         obsidian
-        eww
         python3
 
         rofi
@@ -151,6 +151,8 @@
 
         nfs-utils
 
+        typst
+        krita
       ];
 
       # Open ports in the firewall.
