@@ -7,7 +7,7 @@
   _module.args.__findFile = den.lib.__findFile;
 
   # NOTE: Used for introspection and debugging of aspect options
-  flake.den = den;
+  # flake.den = den;
 
   imports = [
     inputs.den.flakeModule
