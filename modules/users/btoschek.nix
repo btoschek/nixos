@@ -5,7 +5,7 @@
       den.provides.primary-user
 
       # Set user shell
-      (den.provides.user-shell "zsh")
+      (den.provides.user-shell "nushell")
 
       # TODO: Maybe only include for desktop?
       den.aspects.base
