@@ -124,8 +124,6 @@
       environment.systemPackages = with pkgs; [
         wget
 
-        yazi
-
         wally-cli
 
         (discord.override {

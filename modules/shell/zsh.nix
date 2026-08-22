@@ -33,19 +33,6 @@
           PROMPT='%F{blue}%~%f ''${vcs_info_msg_0_}$ '
         ''
         + (
-          # TODO: Make based on if yazi is configured
-          lib.optionalString true
-          ''
-            function y() {
-              local tmp="$(mktemp -t "yazi-cwd.XXXXXX")" cwd
-              yazi "$@" --cwd-file="$tmp"
-              IFS= read -r -d "" cwd < "$tmp"
-              [ -n "$cwd" ] && [ "$cwd" != "$PWD" ] && builtin cd -- "$cwd"
-              rm -f -- "$tmp"
-            }
-          ''
-        )
-        + (
           lib.optionalString true #config.programs.direnv.enable # TODO
           
           "eval \"$(direnv hook zsh)\""
