@@ -4,6 +4,7 @@
       # NOTE: Doesn't need to be set here, will be set by user config instead
       #enable = true;
 
+      # TODO: Figure out why custom prompt only works with git repos
       configFile = {
         text = ''
           $env.EDITOR = "nvim";

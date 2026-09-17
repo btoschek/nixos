@@ -1,0 +1,83 @@
+#!/usr/bin/env sh
+
+VALID_DISPLAYS=("DP-1" "DP-2")
+WALLPAPER_DIR="$HOME/Pictures/Wallpapers"
+
+# Get the intended display if needed
+# $1 is display identifier (optional)
+function get_display() {
+
+  local DISPLAY
+
+  if [[ -z "$1" ]] then
+    DISPLAY=$(IFS=$'\n'; echo "${VALID_DISPLAYS[*]}" | fzf)
+  else
+    DISPLAY="$1"
+  fi
+
+  # Check if display is valid
+  # NOTE: Figure out way to not repeat VALID_DISPLAYS from above -> Code de-duplication
+  case $DISPLAY in
+    (DP-1|DP-2) echo "$DISPLAY";;
+    (*) echo -e "\033[91mError:\033[39m Display not found. Aborting" && exit;;
+  esac
+}
+
+# Get the intended wallpaper path if needed
+# $1 is wallpaper path (optional)
+function get_path() {
+
+  local WALLPAPER
+
+  if [[ -z "$1" ]] then
+    WALLPAPER=$(find "$WALLPAPER_DIR" -type f | fzf)
+  else
+    WALLPAPER="$1"
+  fi
+
+  # Check if wallpaper path is valid
+  if [[ ! -f "$WALLPAPER" ]] then
+    echo -e "\033[91mError:\033[39m Wallpaper not found. Aborting"
+    exit
+  else
+    echo "$WALLPAPER"
+  fi
+}
+
+# Set the wallpaper
+# $1 is display identifier
+# $2 is wallpaper path
+function set_wallpaper() {
+
+  local DISPLAY="$1"
+  local WALLPAPER="$2"
+
+  if [ -z "$DISPLAY" ] || [ -z "$WALLPAPER" ]; then
+    echo -e "\033[91mError:\033[39m Wrong number of arguments provided. Aborting"
+    exit
+  fi
+
+  awww img -o "$DISPLAY" --transition-type grow --transition-pos top-right "$WALLPAPER"
+}
+
+# ===================================================================
+#  Input handling
+# ===================================================================
+
+case $# in
+  2)
+    DISPLAY=$(get_display "$1")
+    WALLPAPER=$(get_path "$2");;
+  1)
+    DISPLAY=$(get_display)
+    WALLPAPER=$(get_path "$1");;
+  0)
+    DISPLAY=$(get_display)
+    WALLPAPER=$(get_path);;
+  *)
+    echo -e "\033[91mError:\033[39m Wrong amount of arguments provided. Aborting"
+    exit;;
+esac
+
+# Set wallpaper to desired image
+set_wallpaper "$DISPLAY" "$WALLPAPER" 1>/dev/null

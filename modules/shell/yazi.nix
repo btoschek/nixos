@@ -29,9 +29,10 @@
             desc = "Go to Wallpapers";
           }
           # TODO: See https://github.com/sxyazi/yazi/discussions/4122
+          # TODO: Currently doesn't work for files with spaces in the name?
           {
             on = ["b" "w"];
-            run = "shell --block -- ~/.local/bin/wallpaper \"%h\"";
+            run = "shell --block -- ${./wallpaper} \"%h\"";
             desc = "Set wallpaper";
           }
         ];
