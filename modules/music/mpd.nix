@@ -167,33 +167,7 @@ in {
             borders: "NONE",
             pane: Pane(TabContent)
           ),
-          (
-            size: "3",
-            borders: "TOP | BOTTOM | RIGHT | LEFT",
-            border_symbols: Rounded,
-            border_title: [
-              (kind: Text(" ")),
-              (kind: Property(Status(QueueLength()))),
-              (kind: Text(" songs / ")),
-              (kind: Property(Status(QueueTimeTotal()))),
-              (kind: Text(" total "))
-            ],
-            border_title_alignment: Right,
-            border_title_position: Top,
-            pane: Split(
-              direction: Horizontal,
-              panes: [
-                (
-                  size: "1",
-                  pane: Component("states")
-                ),
-                (
-                  size: "1",
-                  pane: Component("progress_bar")
-                )
-              ]
-            ),
-          ),
+          (size: "3", borders: "NONE", pane: Component("progress_bar")),
         ]),
 
       components: {
@@ -230,19 +204,40 @@ in {
         ),
 
         "progress_bar": Split(
-          direction: Horizontal,
+          direction: Vertical,
           panes: [
             (
-              size: "1",
-              pane: Pane(Empty())
-            ),
-            (
-              size: "100%",
-              pane: Pane(ProgressBar)
-            ),
-            (
-              size: "1",
-              pane: Pane(Empty())
+              size: "3",
+              borders: "ALL",
+              border_symbols: Rounded,
+              border_title: [
+                (kind: Text(" ")),
+                (kind: Property(Status(QueueLength()))),
+                (kind: Text(" songs / ")),
+                (kind: Property(Status(QueueTimeTotal()))),
+                (kind: Text(" total "))
+              ],
+              border_title_alignment: Right,
+              border_title_position: Top,
+              pane: Split(
+                direction: Horizontal,
+                panes: [
+                  ( size: "1", borders: "NONE", pane: Pane(Empty()), ),
+                  ( size: "1", borders: "NONE", pane: Pane(
+                      Property(
+                        content: [
+                          (kind: Property(Status(StateV2(
+                            playing_label: "",
+                            paused_label: "",
+                            stopped_label: ""
+                          ))))
+                        ]
+                      ))),
+                  ( size: "1", borders: "NONE", pane: Pane(Empty()), ),
+                  ( size: "100%", borders: "NONE", pane: Pane(ProgressBar), ),
+                  ( size: "1", borders: "NONE", pane: Pane(Empty()), ),
+                ]
+              ),
             ),
           ]
         ),
