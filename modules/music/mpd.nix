@@ -486,9 +486,8 @@ in {
     # Expose mpd to mpris-compatible programs such as playerctl
     services.mpd-mpris = {
       enable = true;
-      mpd = {
+      settings = {
         host = config.services.mpd.network.listenAddress;
-        useLocal = config.services.mpd.enable;
       };
     };
   };
