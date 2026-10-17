@@ -5,40 +5,6 @@
 }: let
   dataDir = "/var/lib/traefik";
 in {
-  den.schema.host = {
-    options = {
-      domain = lib.mkOption {
-        type = lib.types.str;
-        description = "Domain name associated with the device";
-      };
-    };
-  };
-
-  # Declare routes with simplified generic options
-  den.quirks.routes = {
-    description = "Route declarations used by reverse-proxy";
-  };
-
-  # Extend routes and auto-generate missing information
-  den.policies.extend-routes = {host, ...}: let
-    inherit (den.lib.policy) pipe;
-  in [
-    (pipe.from "routes" [
-      (pipe.transform (r: let
-        fqdn = "${r.subdomain}.${host.domain}";
-      in
-        #assert _ -> r.port != null;
-        #assert _ -> r.subdomain != null;
-        r
-        // lib.optionalAttrs (!(r ? "fqdn")) {inherit fqdn;}
-        // lib.optionalAttrs (!(r ? "url")) {url = "https://${fqdn}";}
-        // lib.optionalAttrs (!(r ? "internal")) {internal = "http://127.0.0.1:${builtins.toString r.port}";}))
-    ])
-  ];
-
-  # Automatically include policy for all hosts
-  den.default.includes = [den.policies.extend-routes];
-
   den.aspects.services.provides.traefik = {
     nixos = {
       host,
