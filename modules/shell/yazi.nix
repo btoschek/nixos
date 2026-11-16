@@ -32,7 +32,7 @@
           # TODO: Currently doesn't work for files with spaces in the name?
           {
             on = ["b" "w"];
-            run = "shell --block -- ${./wallpaper} \"%h\"";
+            run = "shell --block -- ${./wallpaper} %h";
             desc = "Set wallpaper";
           }
         ];

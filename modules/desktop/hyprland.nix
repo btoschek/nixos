@@ -274,7 +274,7 @@
             }
             {
               name = "GregTech: New Horizons";
-              match.class = "^(GT\\:\\ New Horizons)(.*)$";
+              match.title = "^(GT\\:\\ New Horizons)(.*)$";
               workspace = "10 silent";
               content = "game";
             }

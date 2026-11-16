@@ -145,7 +145,6 @@
 
         gcc
         libreoffice-qt
-        pgadmin4-desktopmode
 
         nfs-utils
 
